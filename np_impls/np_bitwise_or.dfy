@@ -1,4 +1,4 @@
-//code based on the 
+//code based on the LLM
 function BitwiseOrNat(x: nat, y: nat): int
     decreases x + y
 {
