@@ -4,7 +4,7 @@
 method arange(start: real, stop: real, step: real) returns (ret: array<real>)
     requires if step < 0.0 then start > stop else start < stop
     requires step != 0.0
-    ensures ret.Length == ((stop - start)/step).Floor
+    ensures ret.Length == ((stop - start)/step).Floor + 1 //this was incorrect should be +1
     ensures ret.Length > 0
     ensures ret[0] == start
     ensures forall i :: 1 <= i < ret.Length ==> ret[i] - ret[i-1] == step
@@ -12,7 +12,7 @@ method arange(start: real, stop: real, step: real) returns (ret: array<real>)
     /* code modified by LLM (iteration 4): Removed unprovable assertion and rely on Floor definition */
     var diff := stop - start;
     var quotient := diff / step;
-    var length := quotient.Floor; //made a math error here: quotient
+    var length := quotient.Floor + 1; //made a math error here: should be quotient.Floor+1
     
     // Prove that quotient > 0.0 based on the sign of step
     if step > 0.0 {
