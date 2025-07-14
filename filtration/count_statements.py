@@ -18,20 +18,40 @@ data = {
     "num_no_requires": [],
     "num_none_either": [],
 }
+
 def find_noncommented_statement_indices(text, word):
     indices = []
     current_index = 0
-    phrase = r'\b' + re.escape(word) + r'\b' 
+    phrase = r'\b' + re.escape(word) + r'\b'
 
-    for line in text.splitlines(keepends=True):  # keep line breaks to track accurate indices
-        # Remove comments
-        code = line.split('//')[0]
+    in_block_comment = False
 
-        # Use regex to find whole-word "method"
+    for line in text.splitlines(keepends=True):  # preserve line breaks
+        code = ''
+        i = 0
+        while i < len(line):
+            if in_block_comment:
+                end = line.find('*/', i)
+                if end == -1:
+                    # Still inside block comment
+                    i = len(line)
+                else:
+                    in_block_comment = False
+                    i = end + 2
+            elif line.startswith('//', i):
+                # Line comment starts, skip the rest of the line
+                break
+            elif line.startswith('/*', i):
+                in_block_comment = True
+                i += 2
+            else:
+                code += line[i]
+                i += 1
+
+        # Find matches in code portion only
         for match in re.finditer(phrase, code):
             indices.append(current_index + match.start())
 
-        # Move current_index forward
         current_index += len(line)
 
     return indices
@@ -80,10 +100,6 @@ def num_methods_ensures(text):
             if (len(requires) == 0 or requires[-1] < merged[-1]):
                 data["num_no_requires"][-1] += 1
         
-    
-
-
-
 if __name__ == "__main__":
     directory = "/Users/cinnabon/Documents/MIT/UROP_2025/DafnyBench/DafnyBench/dataset/body_removed"
     num_files = 0 

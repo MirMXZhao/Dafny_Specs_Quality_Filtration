@@ -95,20 +95,7 @@ module ProdCons {
 
             //  as processes are irrelevant, this could be simplified
             //  into isBufferNotFull() or isBufferNotEmpty()
-        { 
-          //    Dafny automatically proves this.  so we can leave the
-          //    body of this lemma empty.
-          //    But for the sake of clarity, here is the proof.
-
-          //    P is not empty so there is a process p in P
-          //    Reads as: select a p of type Process such that p in P
-          var p: Process :| p in P ;
-          //    Now we have a p.
-          //    We are going to use the fact that valid() must hold as it is a pre-condition
-            if ( |buffer| > 0 ) {
-            }
-            else {}
-        }
+        {}
     }
 }
 

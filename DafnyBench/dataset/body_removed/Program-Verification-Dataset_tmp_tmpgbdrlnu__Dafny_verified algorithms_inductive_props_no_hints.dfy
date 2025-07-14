@@ -31,9 +31,7 @@ lemma a3(n: nat) requires even(n + 2) ensures even(n) {}
 datatype EvenRule =
   | ev_0
   | ev_SS(r: EvenRule)
-{
-  ghost function apply(): nat {}
-}
+{}
 ghost predicate Even(n: nat) {}
 // then we can prove by "constructing" or "destructing" just like in Coq:
 lemma b0() ensures Even(4) {

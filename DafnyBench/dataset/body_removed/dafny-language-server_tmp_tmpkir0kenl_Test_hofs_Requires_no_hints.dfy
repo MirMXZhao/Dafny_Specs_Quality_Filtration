@@ -21,12 +21,7 @@ lemma assumption1()
 }
 
 method test0(a: int)
-{
-  if ref1.requires(a) {
-    // the precondition should suffice to let us call the method
-    ghost var b := ref1(a);
-  }
-}
+{}
 method test5(a: int)
 {}
 method test6(a: int)

@@ -108,13 +108,7 @@ module Int {
 
     // Simple lemma about POW.
     lemma lemma_pow2(k:nat)
-    ensures Pow(2,k) > 0 {
-        if k == 0 {
-        } else if k == 1 {
-            } else {
-            lemma_pow2(k/2);
-        }
-    }
+    ensures Pow(2,k) > 0 {}
 
     // =========================================================
     // Non-Euclidean Division / Remainder
@@ -139,152 +133,27 @@ module Int {
 /**
  * Various helper methods related to unsigned 8bit integers.
  */
-module U8 {
-    import opened Int
-    // Compute the log of a value at base 2 where the result is rounded down.
-    function Log2(v:u8) : (r:nat)
-    ensures r < 8 {}
-}
+module U8 {}
 
 /**
  * Various helper methods related to unsigned 16bit integers.
  */
-module U16 {
-    import opened Int
-    import U8
-
-    // Read nth 8bit word (i.e. byte) out of this u16, where 0
-    // identifies the most significant byte.
-    function NthUint8(v:u16, k: nat) : u8
-        // Cannot read more than two words!
-    requires k < 2 {}
-
-    /**
-     * Compute the log of a value at base 2 where the result is rounded down.
-     */
-    function Log2(v:u16) : (r:nat)
-    ensures r < 16 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log256(v:u16) : (r:nat)
-    ensures r <= 1 {}
-
-    /**
-     * Convert a u16 into a sequence of 2 bytes (in big endian representation).
-     */
-    function ToBytes(v:u16) : (r:seq<u8>)
-    ensures |r| == 2 {}
-
-    function Read(bytes: seq<u8>, address:nat) : u16
-    requires (address+1) < |bytes| {}
-}
+module U16 {}
 
 /**
  * Various helper methods related to unsigned 32bit integers.
  */
-module U32 {
-    import U16
-    import opened Int
-
-    // Read nth 16bit word out of this u32, where 0 identifies the most
-    // significant word.
-    function NthUint16(v:u32, k: nat) : u16
-        // Cannot read more than two words!
-    requires k < 2 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log2(v:u32) : (r:nat)
-    ensures r < 32 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log256(v:u32) : (r:nat)
-    ensures r <= 3 {}
-
-    /**
-     * Convert a u32 into a sequence of 4 bytes (in big endian representation).
-     */
-    function ToBytes(v:u32) : (r:seq<u8>)
-    ensures |r| == 4 {}
-
-    function Read(bytes: seq<u8>, address:nat) : u32
-    requires (address+3) < |bytes| {}
-}
+module U32 {}
 
 /**
  * Various helper methods related to unsigned 64bit integers.
  */
-module U64 {
-    import U32
-    import opened Int
-
-    // Read nth 32bit word out of this u64, where 0 identifies the most
-    // significant word.
-    function NthUint32(v:u64, k: nat) : u32
-        // Cannot read more than two words!
-    requires k < 2 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log2(v:u64) : (r:nat)
-    ensures r < 64 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log256(v:u64) : (r:nat)
-    ensures r <= 7 {}
-
-    /**
-     * Convert a u64 into a sequence of 8bytes (in big endian representation).
-     */
-    function ToBytes(v:u64) : (r:seq<u8>)
-    ensures |r| == 8 {}
-
-    function Read(bytes: seq<u8>, address:nat) : u64
-    requires (address+7) < |bytes| {}
-}
+module U64 {}
 
 /**
  * Various helper methods related to unsigned 128bit integers.
  */
-module U128 {
-    import U64
-    import opened Int
-
-    // Read nth 64bit word out of this u128, where 0 identifies the most
-    // significant word.
-    function NthUint64(v:u128, k: nat) : u64
-        // Cannot read more than two words!
-    requires k < 2 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log2(v:u128) : (r:nat)
-    ensures r < 128 {}
-
-    /**
-     * Compute the log of a value at base 256 where the result is rounded down.
-     */
-    function Log256(v:u128) : (r:nat)
-    ensures r <= 15 {}
-
-    /**
-     * Convert a u128 into a sequence of 16bytes (in big endian representation).
-     */
-    function ToBytes(v:u128) : (r:seq<u8>)
-    ensures |r| == 16 {}
-
-    function Read(bytes: seq<u8>, address:nat) : u128
-    requires (address+15) < |bytes| {}
-}
+module U128 {}
 
 /**
  * Various helper methods related to unsigned 256bit integers.
@@ -389,21 +258,5 @@ module I256 {
     function Sar(lhs: i256, rhs: u256): i256 {}
 }
 
-module Word {
-  import opened Int
-
-  // Decode a 256bit word as a signed 256bit integer.  Since words
-  // are represented as u256, the parameter has type u256.  However,
-  // its important to note that this does not mean the value in
-  // question represents an unsigned 256 bit integer.  Rather, it is a
-  // signed integer encoded into an unsigned integer.
-  function asI256(w: u256) : i256 {}
-
-  // Encode a 256bit signed integer as a 256bit word.  Since words are
-  // represented as u256, the return is represented as u256.  However,
-  // its important to note that this does not mean the value in
-  // question represents an unsigned 256 bit integer.  Rather, it is a
-  // signed integer encoded into an unsigned integer.
-  function fromI256(w: Int.i256) : u256 {}
-}
+module Word {}
 

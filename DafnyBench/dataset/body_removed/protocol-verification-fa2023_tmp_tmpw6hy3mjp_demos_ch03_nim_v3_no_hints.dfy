@@ -4,9 +4,7 @@
 // each transition.
 
 datatype Player = P1 | P2
-{
-  function Other(): Player {}
-}
+{}
 datatype Variables = Variables(piles: seq<nat>, turn: Player)
 
 ghost predicate Init(v: Variables) {}

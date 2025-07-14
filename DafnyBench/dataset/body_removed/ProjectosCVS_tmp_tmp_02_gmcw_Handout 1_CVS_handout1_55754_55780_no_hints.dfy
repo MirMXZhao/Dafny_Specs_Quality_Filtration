@@ -15,20 +15,7 @@ lemma peasantMultLemma(a:int, b:int)
 method peasantMult(a: int, b: int) returns (r: int)
     requires b > 0
     ensures r == a * b
-    {
-        r := 0;
-        var aa := a;
-        var bb := b;
-    
-        while(bb > 0)
-        { 
-            // Use of lemma was not necessary for a successful verification
-            // peasantMultLemma(aa, bb);
-            if (bb % 2 == 0)
-            {} else if (bb % 2 == 1)
-            {}
-        } 
-    }
+    {}
 
 
 //Second Exercise

@@ -79,25 +79,7 @@ ghost function bsimp(b: bexp): bexp
 
 lemma BsimpCorrect(b: bexp, s: state)
   ensures bval(bsimp(b), s) == bval(b, s)
-{
-/*  Here is one proof, which uses the induction hypothesis any anything smaller than b and also invokes
-    the lemma AsimpCorrect on every arithmetic expression.
-  forall b' | b' < b {}
-  forall a {}
-    Yet another possibility is to mark the lemma with {:induction b} and to use the following line in
-    the body:
-  forall a {}
-*/
-  // Here is another proof, which makes explicit the uses of the induction hypothesis and the other lemma.
-  match b
-  case Bc(v) =>
-  case Not(b0) =>
-    BsimpCorrect(b0, s);
-  case And(b0, b1) =>
-    BsimpCorrect(b0, s); BsimpCorrect(b1, s);
-  case Less(a0, a1) =>
-    AsimpCorrect(a0, s); AsimpCorrect(a1, s);
-}
+{}
 
 // ----- stack machine -----
 

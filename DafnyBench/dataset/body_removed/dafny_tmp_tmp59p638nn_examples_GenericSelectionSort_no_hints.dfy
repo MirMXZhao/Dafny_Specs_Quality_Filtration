@@ -1,30 +1,28 @@
 
 
-trait Comparable<T(==)> {
-    function Lt(x: T, y: T): bool
-}
+trait Comparable<T(==)> {}
 
-  trait Sorted<T(==)> extends Comparable<T> {}
+  trait Sorted<T(==)> extends Comparable<T> {
 
-//   trait SelectionSort<T(==)> extends Comparable<T>, Sorted<T> {
-
-//     method SelectionSort(a: array<T>)
-//       modifies a
-//       ensures Sorted(a)
-//     {}
-
-//   }
-
-class Sort<T(==)> extends SelectionSort<T> {
-    const CMP: (T,T) -> bool
-
-    constructor(cmp: (T,T) -> bool)
-      ensures CMP == cmp
-      ensures comparisonCount == 0
+    ghost predicate Ordered(a: array<T>, left: nat, right: nat)
+      reads a
+      requires left <= right <= a.Length
     {}
 
-    function Lt(x: T, y: T): bool {}
-}
+    twostate predicate Preserved(a: array<T>, left: nat, right: nat)
+      reads a
+      requires left <= right <= a.Length
+    {}
+
+    twostate predicate Sorted(a: array<T>)
+      reads a
+    {}
+
+  }
+
+//   trait SelectionSort<T(==)> extends Comparable<T>, Sorted<T> {}
+
+class Sort<T(==)> extends SelectionSort<T> {}
 
 ghost function Sum(x: int): nat
 {}

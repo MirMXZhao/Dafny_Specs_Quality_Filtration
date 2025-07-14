@@ -5,11 +5,7 @@
 
 ghost function f(n: int): int {}
 
-ghost function fSum(n: nat): int {
- // give the body of this function
-  // it should return Sum(i: 0<=i < n: f(i))
-  if n <= 0 then 0 else f(n-1) + fSum(n-1)
-}
+ghost function fSum(n: nat): int {}
 
 method problem6(n:nat) returns (a: int)
 ensures a == fSum(n)

@@ -7,43 +7,7 @@ module Lang {}
 
 /* First, we give the concrete semantics of programs. */
 
-module ConcreteEval {
-  import opened Ints
-  import opened Lang
-
-  type State = Reg -> u32
-
-  function update_state(s: State, r0: Reg, v: u32): State {}
-
-  datatype Option<T> = Some(v: T) | None
-
-  function expr_eval(env: State, e: Expr): Option<u32>
-  {}
-
-  // stmt_step executes a single statement
-  //
-  // Returns a new state and a relative PC offset (which is 1 for non-jump
-  // statements).
-  function stmt_step(env: State, s: Stmt): Option<(State, int)> {}
-
-  datatype ExecResult = Ok(env: State) | NoFuel | Error
-
-  // Run a program starting at pc.
-  //
-  // The sequence of statements is constant, meant to reflect a static program.
-  // Termination occurs if the pc ever reaches exactly the end.
-  //
-  // Errors can come from either executing statements (see stmt_step for those
-  // errors), or from an out-of-bounds pc (negative or not past the end of ss).
-  //
-  // fuel is needed to make this function terminate; the idea is that if there
-  // exists some fuel that makes the program terminate, that is it's complete
-  // execution, and if it always runs out of fuel it has an infinite loop.
-  function stmts_step(env: State, ss: seq<Stmt>, pc: nat, fuel: nat): ExecResult
-    requires pc <= |ss|
-  {}
-
-}
+module ConcreteEval {}
 
 /* Now we turn to analyzing programs */
 

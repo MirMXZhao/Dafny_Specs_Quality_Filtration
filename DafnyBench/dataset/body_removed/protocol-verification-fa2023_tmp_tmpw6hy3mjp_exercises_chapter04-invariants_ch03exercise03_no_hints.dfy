@@ -22,7 +22,10 @@ datatype ClientRecord = Released | Acquired
 datatype Variables = Variables(
   clientCount: nat, /* constant */
   server: ServerGrant, clients: seq<ClientRecord>
-) {}
+) {
+  ghost predicate ValidIdx(idx: int) {}
+  ghost predicate WellFormed() {}
+}
 // END
 
 

@@ -29,7 +29,10 @@ datatype Variables = Variables(
   // variable rather than being decided at each node individually
   decision: set<Choice>
 )
-{}
+{
+  ghost predicate WF()
+  {}
+}
 
 datatype Step =
   | CastVoteStep(n: Node, c: Choice)
@@ -38,13 +41,7 @@ datatype Step =
 ghost predicate CastVote(v: Variables, v': Variables, step: Step)
   requires v.WF()
   requires step.CastVoteStep?
-{
-  var n := step.n;
-  && (v.votes[n] == {})
-     // learn to read these "functional updates" of maps/sequences:
-     // this is like v.votes[n] += {step.c} if that was supported
-  && (v' == v.(votes := v.votes[n := v.votes[n] + {step.c}]))
-}
+{}
 
 ghost predicate Decide(v: Variables, v': Variables, step: Step)
   requires v.WF()

@@ -181,14 +181,7 @@ predicate closed(t: tm)
 lemma corollary_typable_empty__closed(t: tm)
   requires has_type(map[], t).Some?;
   ensures closed(t);
-{
-  forall (x:int) ensures x !in fv(t);
-  {
-    if (x in fv(t)) {
-      lemma_free_in_context(map[], x, t);
-    }
-  }
-}
+{}
 
 // If a term t is well-typed in context c,
 //    and context c' agrees with c on all free variables of t,
@@ -198,11 +191,7 @@ lemma {:induction t} lemma_context_invariance(c: map<int,ty>, c': map<int,ty>, t
   requires has_type(c, t).Some?;
   requires forall x: int :: x in fv(t) ==> find(c, x) == find(c', x);
   ensures has_type(c, t) == has_type(c', t);
-{
-  if (t.tabs?) {
-    lemma_context_invariance(extend(t.x, t.T, c), extend(t.x, t.T, c'), t.body);
-  }
-}
+{}
 
 // Substitution preserves typing:
 // If  s has type S in an empty context,
@@ -212,29 +201,7 @@ lemma lemma_substitution_preserves_typing(c: map<int,ty>, x: int, s: tm, t: tm)
   requires has_type(map[], s).Some?;
   requires has_type(extend(x, has_type(map[], s).get, c), t).Some?;
   ensures has_type(c, subst(x, s, t)) == has_type(extend(x, has_type(map[], s).get, c), t);
-{
-  var S := has_type(map[], s).get;
-  var cs := extend(x, S, c);
-  var T  := has_type(cs, t).get;
-
-  if (t.tvar?) {
-    if (t.id==x) {
-      corollary_typable_empty__closed(s);
-      lemma_context_invariance(map[], c, s);
-    }
-  }
-  if (t.tabs?) {
-    if (t.x==x) {
-      lemma_context_invariance(cs, c, t);
-    } else {
-      var cx  := extend(t.x, t.T, c);
-      var csx := extend(x, S, cx);
-      var cxs := extend(t.x, t.T, cs);
-      lemma_context_invariance(cxs, csx, t.body);
-      lemma_substitution_preserves_typing(cx, x, s, t.body);
-    }
-  }
-}
+{}
 
 
 // Preservation:
@@ -243,11 +210,7 @@ lemma theorem_preservation(t: tm)
   requires has_type(map[], t).Some?;
   requires step(t).Some?;
   ensures has_type(map[], step(t).get) == has_type(map[], t);
-{
-  if (t.tapp? && value(t.f) && value(t.arg)) {
-    lemma_substitution_preserves_typing(map[], t.f.x, t.arg, t.f.body);
-  }
-}
+{}
 
 // A normal form cannot step.
 predicate normal_form(t: tm)

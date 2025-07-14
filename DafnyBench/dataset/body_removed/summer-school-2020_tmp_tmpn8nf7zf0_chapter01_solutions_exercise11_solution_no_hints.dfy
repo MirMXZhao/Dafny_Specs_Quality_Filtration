@@ -29,23 +29,7 @@ datatype PageElement = Text(t:TextAlign) | Graphics(g:GraphicsAlign)
 lemma NumPageElements()
   ensures exists eltSet:set<HAlign> :: |eltSet| == 3  // bound is tight
   ensures forall eltSet:set<HAlign> :: |eltSet| <= 3  // upper bound
-{
-  var maxSet := {};
-
-  // Prove the bound is tight.
-
-  // Prove upper bound.
-  forall eltSet:set<HAlign>
-    ensures |eltSet| <= 3
-  {
-    // Prove eltSet <= maxSet
-    forall elt | elt in eltSet ensures elt in maxSet {}
-
-    // Cardinality relation should have been obvious to Dafny;
-    // see comment on lemma below.
-    subsetCardinality(eltSet, maxSet);
-  }
-}
+{}
 
 // Dafny seems to be missing a heuristic to trigger this cardinality relation!
 // So I proved it. This should get fixed in dafny, or at least tucked into a

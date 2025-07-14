@@ -54,20 +54,7 @@ module UtilitiesLibrary {
   datatype Direction = North() | East() | South() | West()
 
   function TurnRight(direction:Direction) : Direction
-  {
-    // This function introduces two new bis of syntax.
-    // First, the if-else expression: if <bool> then T else T
-    // Second, the element.Ctor? built-in predicate, which tests whether
-    // the datatype `element` was built by `Ctor`.
-    if direction.North?
-      then East
-    else if direction.East?
-      then South
-    else if direction.South?
-      then West
-    else  // By elimination, West!
-      North
-  }
+  {}
 
   lemma Rotation()
   {

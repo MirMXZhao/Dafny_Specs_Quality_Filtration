@@ -8,7 +8,12 @@ abstract module Interface {
         ensures P(F())
 }
 
-module Implementation refines Interface {}
+module Implementation refines Interface {
+    predicate P(x: T) {
+        false
+    }
+
+}
 
 abstract module User {
     import I : Interface

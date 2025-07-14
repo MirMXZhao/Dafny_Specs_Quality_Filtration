@@ -17,20 +17,7 @@ method powerIter(x: real, n: nat) returns (p : real)
 // Recursive version, imperative, with time and space complexity O(log n).
 method powerOpt(x: real, n: nat) returns (p : real)
   ensures p == power(x, n);
-{
-    if n == 0 {}
-    else if n == 1 {}
-    else if n % 2 == 0 {
-       distributiveProperty(x,  n/2, n/2); // recall lemma here
-        var temp := powerOpt(x, n/2);
-        return temp * temp;
-    }
-    else {
-        distributiveProperty(x, (n-1)/2, (n-1)/2); // recall lemma here  
-        var temp := powerOpt(x, (n-1)/2);
-        return temp * temp * x;
-    } 
-}
+{}
 
 // States the property x^a * x^b = x^(a+b), that powerOpt takes advantage of. 
 // The annotation {:induction a} guides Dafny to prove the property

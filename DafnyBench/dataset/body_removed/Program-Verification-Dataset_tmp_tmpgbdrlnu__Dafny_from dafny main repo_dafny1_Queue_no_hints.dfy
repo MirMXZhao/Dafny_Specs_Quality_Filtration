@@ -67,7 +67,22 @@ class Queue<T(0)> {
   {}
 }
 
-class Node<T(0)> {}
+class Node<T(0)> {
+  var data: T
+  var next: Node?<T>
+
+  ghost var tailContents: seq<T>
+  ghost var footprint: set<object>
+
+  ghost predicate Valid()
+    reads this, footprint
+  {}
+
+  constructor Init()
+    ensures Valid() && fresh(footprint - {this})
+    ensures next == null
+  {}
+}
 
 class Main<U(0)> {
   method A<T(0)>(t: T, u: T, v: T)

@@ -48,8 +48,7 @@ method {:verify true} MergeLoop(b: array<int>, c: array<int>, d: array<int>,i0: 
 		ensures InvSorted(b[..],c[..],d[..],i,j)
 		//decreases ensures
 		ensures 0 <= c.Length - i < c.Length - i0 || (c.Length - i == c.Length - i0 && 0 <= d.Length - j < d.Length - j0)
-		{
-		}
+		{}
 
 	
 //Loop invariant - b is sprted so far and the next two potential values that will go into b are bigger then the biggest value in b.

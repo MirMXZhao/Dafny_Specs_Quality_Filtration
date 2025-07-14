@@ -1,6 +1,48 @@
-module OneSpec {}
+module OneSpec {
+    datatype Variables = Variables(value: int)
 
-module OneProtocol {}
+    predicate Init(v: Variables)
+    {}
+
+    predicate IncrementOp(v: Variables, v': Variables)
+    {}
+
+    predicate DecrementOp(v: Variables, v': Variables)
+    {}
+
+    datatype Step = 
+        | IncrementStep()
+        | DecrementStep()
+
+    predicate NextStep(v: Variables, v': Variables, step: Step)
+    {}
+
+    predicate Next(v: Variables, v': Variables)
+    {}
+}
+
+module OneProtocol {
+    datatype Variables = Variables(value: int)
+
+    predicate Init(v: Variables)
+    {}
+
+    predicate IncrementOp(v: Variables, v': Variables)
+    {}
+
+    predicate DecrementOp(v: Variables, v': Variables)
+    {}
+
+    datatype Step = 
+        | IncrementStep()
+        | DecrementStep()
+
+    predicate NextStep(v: Variables, v': Variables, step: Step)
+    {}
+
+    predicate Next(v: Variables, v': Variables)
+    {}
+}
 
 module RefinementProof {
     import OneSpec

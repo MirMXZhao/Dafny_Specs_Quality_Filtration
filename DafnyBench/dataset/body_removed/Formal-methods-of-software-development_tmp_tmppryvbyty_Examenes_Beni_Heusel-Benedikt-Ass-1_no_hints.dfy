@@ -77,31 +77,5 @@ ensures  z*a >= z*b
 lemma expPlus1_Lemma(x:int,n:nat)
 	requires x >= 1 && n >= 1
 	ensures exp(x+1,n) >= exp(x,n) + 1 
-   {
-      if n == 1 {} else {
-         calc {
-            exp(x+1,n);
-            ==
-            (x + 1) * exp(x+1,n-1);
-            >= {
-               expPlus1_Lemma(x, n-1);
-               //assert exp(x+1,n-1) >= exp(x,n-1) + 1; HI
-
-               //assert exp(x+1,n-1) >= exp(x,n-1) + 1; // HI
-               //aquí se necesitaría tambien prod_lemma,
-               //pero parece que el paso se demuestra tambien
-               //sin la llamada
-            }
-            (x + 1) * (exp(x,n-1) + 1);
-            ==
-            x * exp(x,n-1) + x + exp(x,n-1) + 1;
-            ==
-            exp(x,n) + x + exp(x,n-1) + 1;
-            == 
-            exp(x,n) + 1 + exp(x,n-1) + x;
-            >= {}
-            exp(x,n) + 1;
-         }
-      }
-   }
+   {}
 // Por inducción en n, y usando exp_Lemma y prod_Lemma.

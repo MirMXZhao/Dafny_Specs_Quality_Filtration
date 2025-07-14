@@ -3,9 +3,13 @@
 
 method Main() {}
 
-module M0 {}
+module M0 {
+  class MyClass {}
+}
 
-module M1 refines M0 {}
+module M1 refines M0 {
+  class MyClass ... {}
+}
 
 module TypeOfThis {
   class LinkedList<T(0)> {
@@ -35,6 +39,8 @@ module TypeOfThis {
   }
 }
 
-module Regression {}
+module Regression {
+  class A {}
+}
 
 

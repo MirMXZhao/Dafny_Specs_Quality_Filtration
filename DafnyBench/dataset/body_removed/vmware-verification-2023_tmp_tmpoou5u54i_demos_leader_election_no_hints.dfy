@@ -1,8 +1,19 @@
 // Each node's identifier (address)
-datatype Constants = Constants(ids: seq<nat>) {}
+datatype Constants = Constants(ids: seq<nat>) {
+  predicate ValidIdx(i: int) {
+    0<=i<|ids|
+  }
+
+  ghost predicate UniqueIds() {}
+
+  ghost predicate WF() {}
+}
 
 // The highest other identifier this node has heard about.
-datatype Variables = Variables(highest_heard: seq<int>) {}
+datatype Variables = Variables(highest_heard: seq<int>) {
+  ghost predicate WF(c: Constants)
+  {}
+}
 
 ghost predicate Init(c: Constants, v: Variables)
 {}

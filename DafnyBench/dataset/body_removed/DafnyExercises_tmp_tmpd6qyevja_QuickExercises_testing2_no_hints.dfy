@@ -73,26 +73,7 @@
 // // method Main() {}
 
 
-// class KlingonCalendar {
-//   var dayOfWeek   : int
-//   const DAYS := ["dishonour", "destruction", "defeat", "death", "victory"]  //-3, -2, -1, 0, 1
-//   var weekOfMonth : int
-//   const WEEKS := [ "polishing spaceships", "carousing", "battle"] // -1, 0, 1
-//   var monthOfYear : int 
-//   const MONTHS := ["peace", "pestilence", "famine", "flood", "covid", "war", "slaughter"] //-5, -4 -3, -3, -1, 0, 1
-//   var year : nat
-
-// //Define a "Valid()" predicate as a class invariant so that
-// //the rest of the class methods don't have to repeat everything!
-// predicate Valid()
-// reads this 
-// {}
-
-//   method printDate() 
-
-//     requires Valid(); 
-//   {}
-// }
+// class KlingonCalendar {}
 
 // lemma VowelsLemma(s : string, t : string) 
 //   ensures vowels(s + t) == vowels(s) + vowels(t) 
@@ -112,39 +93,7 @@
 //   ensures vowelsF(s + t) == vowelsF(s) + vowelsF(t) 
 // {}
 
-// class Stack {
-//    const values : array<int>;
-//    const capacity : nat;
-//    var size : nat;
-//       constructor(capacity_ : nat) 
-// /*omitted*/
-
-// method push(i : int) 
-// modifies this, values
-// requires size <values.Length
-// requires size < capacity
-// ensures size <= capacity
-// ensures values[old(size)] == i
-// ensures size == old(size) + 1
-// ensures size > 0
-// ensures values[size-1] == i
-// ensures size == old(size) +1
-// ensures old(size) < values.Length
-// ensures old(size) >= 0
-// ensures forall i :: 0 <= i < old(size) ==> old(values[i]) == values[i]{}
-// method pop() returns (r : int) 
-// modifies this
-// requires 0 <size<values.Length
-// requires size <= capacity
-// ensures size < capacity
-// ensures size >= 0
-// ensures size == old(size) -1
-// ensures r == values[old(size-1)]
-// ensures r == values[size]
-
-// {}   
-   
-// }
+// class Stack {}
 
 // method VerifyStack(s : Stack, i : int, j : int)
 //  modifies s, s.values
@@ -156,82 +105,7 @@
 
 // datatype StackModel = Empty | Push(value : int, prev : StackModel)
 
-// class Stack {
-
-//    const values : array<int>;
-//    const capacity : nat;
-//    var size : nat;
-
-//    function method toStackModel() : StackModel 
-//      requires 0 <= size <= capacity
-//      requires values.Length == capacity
-//      reads this, values
-//       {}
-
-//    function method toStackModelAux(i : nat) : StackModel 
-//     //requires 0 <= i <= size <= capacity
-//     requires 0 <= i <= capacity
-//     requires values.Length == capacity
-//     reads values
-//     decreases i 
-//     {}
-
-// //Here's where you need to re-use your code
-// //Copy in your existing code for these methods
-// //
-
-// predicate Valid()
-//    reads this
-// {} 
-
-//   constructor(capacity_ : nat) 
-//   ensures capacity == capacity_
-//   ensures Valid()
-//   // ensures values.Length == capacity_
-//   // ensures values.Length == capacity
-//   ensures size ==0
-//   ensures forall i:nat::i<values.Length ==>values[i] ==0{}
-
-
-// method push(i : int) 
-// modifies this, values
-// requires Valid()
-// requires size <values.Length
-// requires size < capacity
-// requires 0 <= size <= capacity
-// requires values.Length == capacity
-// ensures size <= capacity
-// ensures values[old(size)] == i
-// ensures size == old(size) + 1
-// ensures size > 0
-// ensures values[size-1] == i
-// ensures size == old(size) +1
-// ensures forall i :: 0 <= i < old(size) ==> old(values[i]) == values[i]
-// ensures forall i :: 0 <= i <= old(size) ==> old(this.toStackModelAux(i)) == this.toStackModelAux(i)
-// ensures this.toStackModel().value == i 
-// {}
-// method pop() returns (r : int) 
-// modifies this
-// requires 0 <size<values.Length
-// requires size <= capacity
-// ensures size < capacity
-// ensures size >= 0
-// ensures size == old(size) -1
-// ensures r == values[old(size-1)]
-// ensures r == values[size]
-
-// {}   
-   
-// function method top() : (r : int)
-// reads values
-// reads this
-// requires values.Length > 0 
-// requires size > 0
-// requires size <= values.Length
-// ensures r == values[size-1]{}
-
-
-// }
+// class Stack {}
 
 // method StackModelOK(s : Stack, i : int, j : int)
 //  requires s.values.Length == s.capacity
@@ -243,67 +117,7 @@
 
 // datatype StackModel = Empty | Push(value : int, prev : StackModel)
 
-// class Stack {
-//    var values : array<int>
-//    var capacity : nat
-//    var size : nat
-   
-//    ghost const Repr : set<object>
-
-//Last Stack ("bis") question (for now!!!) - https://youtu.be/Goj8QCOkq-w
-//
-//Chapter 16 goes on to talk about how to define a Repr field
-//to outline the representation of the abstraction you're modelling
-//so you don't have to name all the objects involved in modifies
-//clauses, just refer to the whole Repr.
-//    
-//Copy and paste your code for the final time, then edit your
-//constructor and Valid() class invariant so that the hidden
-//code in here should work. Define just these two methods:
-//
-//   predicate Valid()
-//    reads Repr
-// {} 
-
-//   constructor(capacity_ : nat) 
-//   ensures capacity == capacity_
-//   ensures Valid()
-//   ensures values.Length == capacity_
-//   ensures values.Length == capacity
-//   ensures size ==0
-//   ensures forall i:nat::i<values.Length ==>values[i] ==0{}
-
-
-
-//    function method toStackModel() : StackModel 
-//      reads Repr
-//      requires Valid()
-// /*omitted*/
-
-//    function method toStackModelAux(i : nat) : StackModel 
-//     reads Repr
-//     requires Valid()
-// /*omitted*/
-
-//    method push(i : int) 
-//      requires Valid()
-//      ensures Valid()
-//      modifies Repr
-//      ensures capacity == old(capacity)
-// /*omitted*/
-
-// method pop() returns (r : int) 
-//     requires Valid()
-//     modifies this`size;
-//     ensures Valid();
-// /*omitted*/
-
-//    function method top() : (r : int)
-//       requires Valid()
-//       reads Repr
-//       ensures Valid();
-// /*omitted*/
-// }
+// class Stack {}
 
 
 

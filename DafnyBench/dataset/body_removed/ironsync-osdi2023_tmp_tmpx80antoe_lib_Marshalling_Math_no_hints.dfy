@@ -20,13 +20,7 @@ module Math {
 
   lemma lemma_power2_adds(e1:nat, e2:nat)
       ensures power2(e1 + e2) == power2(e1) * power2(e2);
-  {
-    reveal_power2();
-    if (e2 == 0) {
-    } else {
-      lemma_power2_adds(e1, e2-1);
-    }
-  }
+  {}
 
   lemma lemma_2toX32()
       ensures power2(0) == 0x1;
@@ -81,73 +75,36 @@ module Math {
   lemma lemma_add_mul_div(a: int, b: int, d: int)
   requires d > 0
   ensures (a + b*d) / d == a/d + b
-  {
-    if (b == 0) {
-    } else if (b > 0) {
-      lemma_add_mul_div(a, b-1, d);
-      lemma_div_ind(a + (b-1)*d, d);
-    } else {
-      lemma_add_mul_div(a, b+1, d);
-      lemma_div_ind(a + b*d, d);
-    }
-  }
+  {}
 
   lemma lemma_div_multiples_vanish_fancy(x:int, b:int, d:int)
       requires 0<d;
       requires 0<=b<d;
       ensures (d*x + b)/d == x;
-  {
-    if (x == 0) {
-    } else if (x > 0) {
-      lemma_div_multiples_vanish_fancy(x-1, b, d);
-      lemma_div_ind(d*(x-1) + b, d);
-    } else {
-      lemma_div_multiples_vanish_fancy(x+1, b, d);
-      lemma_div_ind(d*x + b, d);
-    }
-  }
+  {}
 
   lemma lemma_div_by_multiple(b:int, d:int)
       requires 0 < d;
       ensures  (b*d) / d == b;
-  {   
-      lemma_div_multiples_vanish_fancy(b, 0, d);
-  }
+  {}
 
   lemma lemma_mod_multiples_basic(x:int, m:int)
       requires m > 0;
       ensures  (x * m) % m == 0;
-  {
-    lemma_div_by_multiple(x, m);
-        == 0;
-  }
+  {}
 
   lemma lemma_div_by_multiple_is_strongly_ordered(x:int, y:int, m:int, z:int)
       requires x < y;
       requires y == m * z;
       requires z > 0;
       ensures     x / z < y / z;
-  {
-    lemma_mod_multiples_basic(m, z);
-    if (x / z <= m-1) {
-    } else {
-      lemma_div_by_multiple_is_strongly_ordered(x, y-z, m-1, z);
-    }
-  }
+  {}
 
   lemma lemma_power2_div_is_sub(x:int, y:int)
       requires 0 <= x <= y;
       ensures power2(y - x) == power2(y) / power2(x)
         >= 0;
-  {
-    calc {
-        power2(y) / power2(x);
-        { lemma_power2_adds(y-x, x); }
-        (power2(y-x)*power2(x)) / power2(x);
-        { lemma_div_by_multiple(power2(y-x), power2(x)); }
-        power2(y-x);
-    }
-  }
+  {}
 
   lemma lemma_div_denominator(x:int,c:nat,d:nat)
       requires 0 <= x;
@@ -155,30 +112,6 @@ module Math {
       requires 0<d;
       ensures c * d != 0;
       ensures (x/c)/d == x / (c*d);
-  {
-    if (x < c*d) {
-    } else {
-      calc {
-        (x / c) / d;
-        ((x - c*d + c*d) / c) / d;
-        {
-          lemma_add_mul_div(x-c*d, d, c);
-        }
-        ((x - c*d) / c + d) / d;
-        {
-          lemma_div_ind((x - c*d) / c, d);
-        }
-        ((x - c*d) / c) / d + 1;
-        {
-          lemma_div_denominator(x - c*d, c, d);
-        }
-        ((x - c*d) / (c*d)) + 1;
-        {
-          lemma_div_ind(x - c*d, c*d);
-        }
-        x / (c*d);
-      }
-    }
-  }
+  {}
 }
 

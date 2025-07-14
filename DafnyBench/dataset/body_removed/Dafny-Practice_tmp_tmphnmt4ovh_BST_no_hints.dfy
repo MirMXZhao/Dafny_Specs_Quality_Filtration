@@ -39,62 +39,7 @@ method BuildBST(q: seq<int>) returns (t: Tree)
 method InsertBST(t0: Tree, x: int) returns (t: Tree)
 	requires BST(t0) && x !in NumbersInTree(t0)
 	ensures BST(t) && NumbersInTree(t) == NumbersInTree(t0)+{x}
-{
-	match t0 
-	{
-		case Empty => t := Node(x, Empty, Empty);
-
-		case Node(i, left, right) => 
-		{
-			var tmp:Tree:= Empty;
-			if x < i
-			{
-				LemmaBinarySearchSubtree(i,left,right);
-				tmp :=  InsertBST(left, x);
-				t := Node(i, tmp, right);
-				ghost var right_nums := Inorder(right);
-				ghost var left_nums := Inorder(left);
-				ghost var all_nums := Inorder(t0);
-				// assert all_nums[..|left_nums|] == left_nums;
-				ghost var new_all_nums := Inorder(t);
-				ghost var new_left_nums := Inorder(tmp);
-				// assert Ascending(new_left_nums+ [i] + right_nums);
-
-
-
-				
-				
-				lemma_all_small(new_left_nums,i);
-				
-
-			}
-			else
-			{
-				LemmaBinarySearchSubtree(i,left,right);
-				tmp := InsertBST(right, x);
-				t := Node(i, left, tmp);
-
-				ghost var right_nums := Inorder(right);
-				ghost var left_nums := Inorder(left);
-				ghost var all_nums := Inorder(t0);
-				// assert all_nums[..|left_nums|] == left_nums;
-				ghost var new_all_nums := Inorder(t);
-				ghost var new_right_nums := Inorder(tmp);
-				// assert Ascending(left_nums+ [i] + right_nums);
-
-
-				// assert forall j :: j in NumbersInSequence(all_nums[|left_nums|+1..]) ==> j > i;
-				// assert forall j :: j in NumbersInSequence(all_nums[|left_nums|+1..])+{x} ==> j > i;
-				
-				
-				lemma_all_big(new_right_nums,i);
-				
-				// assert Ascending(new_right_nums+[i]);
-
-			}
-		}
-	}
-}
+{}
 
 lemma	LemmaBinarySearchSubtree(n: int, left: Tree, right: Tree)
 	requires BST(Node(n, left, right))

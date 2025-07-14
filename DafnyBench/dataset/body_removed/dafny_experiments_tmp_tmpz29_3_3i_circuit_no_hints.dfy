@@ -56,32 +56,7 @@ module Base
 }
 
 module Utils
-{
-    // Updates both the keys and values of a map.
-    function UpdateMap<T(!new), U>(A: map<T, U>, f: T->T, g: U->U): (result: map<T, U>)
-        requires forall x: T, y: T :: x != y ==> f(x) != f(y)
-        ensures forall x :: x in A <==> f(x) in result;
-        ensures forall x :: x in A ==> g(A[x]) == result[f(x)];
-    {}
-
-    // Combines two maps into a single map.
-    function CombineMaps<T(!new), U>(a: map<T, U>, b: map<T, U>): map<T, U>
-        requires forall x :: x in a ==> x !in b
-        requires forall x :: x in b ==> x !in a
-        ensures
-            var result := CombineMaps(a, b);
-            (forall x :: x in a ==> a[x] == result[x]) &&
-            (forall x :: x in b ==> b[x] == result[x]) &&
-            (forall x :: x in result ==> (x in a) || (x in b))
-    {}
-
-    function sub(a: nat, b: nat): nat
-        requires b <= a
-    {
-        a - b
-    }
-
-}
+{}
 
 module BackwardConnections
 {
@@ -206,35 +181,5 @@ module CombineCircuits {
             IsEquivalentCircuit(a=>a >= offset, a requires a >= offset => sub(a, offset), r, c2) &&
 */
             true
-    { 
-        // Trying to prove:
-        // The original c2 has an image in r.
-        // IsEquivalentCircuit(a=>true, a=>a+offset, c2, r)
-
-        var offset := |c1.nodes|;
-        var node_is_member := a=>true;
-        var node_map := a=>a+offset;
-        calc {
-            IsEquivalentCircuit(node_is_member, node_map, c2, r);
-            // Substitute in the IsEquivalentCircuit function definition.
-            forall inp :: inp in c2.backconns && node_is_member(inp.node_id) ==>
-                inodeport(node_map(inp.node_id), inp.port_id) in r.backconns &&
-                var inp2 := inodeport(node_map(inp.node_id), inp.port_id);
-                var onp := c2.backconns[inp];
-                onodeport(node_map(onp.node_id), onp.port_id) == r.backconns[inp2];
-            // Substitute in the node_is_member and node_is_map definiions.
-            // For some reason this cause the solver to take too long.
-            forall inp :: inp in c2.backconns ==>
-                inodeport(inp.node_id+offset, inp.port_id) in r.backconns &&
-                var inp2 := inodeport(inp.node_id+offset, inp.port_id);
-                var onp := c2.backconns[inp];
-                onodeport(onp.node_id+offset, onp.port_id) == r.backconns[inp2];
-        }
-            by {}
-
-        forall inp | inp in c2.backconns
-        {}
-        reveal r_is_result;
-        CombineCircuitsCorrectC1(c1, c2, r);
-    }
+    {}
 }

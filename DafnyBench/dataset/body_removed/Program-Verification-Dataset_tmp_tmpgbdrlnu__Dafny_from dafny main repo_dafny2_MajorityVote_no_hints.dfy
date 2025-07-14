@@ -75,25 +75,7 @@ ghost predicate HasMajority<T>(a: seq<T>, s: int, t: int, x: T)
 method FindWinner<Candidate(==)>(a: seq<Candidate>, ghost K: Candidate) returns (k: Candidate)
   requires HasMajority(a, 0, |a|, K) // K has a (strict) majority of the votes
   ensures k == K  // find K
-{
-  k := a[0];
-  var n, c, s := 1, 1, 0;
-  while n < |a|
-  {
-    if a[n] == k {} else if 2 * c > n + 1 - s {} else {
-      n := n + 1;
-      // We have 2*Count(a, s, n, k) == n-s, and thus the following lemma
-      // lets us conclude 2*Count(a, s, n, K) <= n-s.
-      Lemma_Unique(a, s, n, K, k);
-      // We also have 2*Count(a, s, |a|, K) > |a|-s, and the following lemma
-      // tells us Count(a, s, |a|, K) == Count(a, s, n, K) + Count(a, n, |a|, K),
-      // and thus we can conclude 2*Count(a, n, |a|, K) > |a|-n.
-      Lemma_Split(a, s, n, |a|, K);
-      k, n, c, s := a[n], n + 1, 1, n;
-    }
-  }
-  Lemma_Unique(a, s, |a|, K, k);  // both k and K have a majority, so K == k
-}
+{}
 
 // ------------------------------------------------------------------------------
 
@@ -115,26 +97,7 @@ method SearchForWinner<Candidate(==)>(a: seq<Candidate>, ghost hasWinner: bool, 
   requires |a| != 0
   requires hasWinner ==> 2 * Count(a, 0, |a|, K) > |a|  // K has a (strict) majority of the votes
   ensures hasWinner ==> k == K  // find K
-{
-  k := a[0];
-  var n, c, s := 1, 1, 0;
-  while n < |a|
-  {
-    if a[n] == k {} else if 2 * c > n + 1 - s {} else {
-      n := n + 1;
-      // We have 2*Count(a, s, n, k) == n-s, and thus the following lemma
-      // lets us conclude 2*Count(a, s, n, K) <= n-s.
-      Lemma_Unique(a, s, n, K, k);
-      // We also have 2*Count(a, s, |a|, K) > |a|-s, and the following lemma
-      // tells us Count(a, s, |a|, K) == Count(a, s, n, K) + Count(a, n, |a|, K),
-      // and thus we can conclude 2*Count(a, n, |a|, K) > |a|-n.
-      Lemma_Split(a, s, n, |a|, K);
-      if |a| == n { return; }
-      k, n, c, s := a[n], n + 1, 1, n;
-    }
-  }
-  Lemma_Unique(a, s, |a|, K, k);  // both k and K have a majority, so K == k
-}
+{}
 
 // ------------------------------------------------------------------------------
 
@@ -143,24 +106,12 @@ method SearchForWinner<Candidate(==)>(a: seq<Candidate>, ghost hasWinner: bool, 
 lemma Lemma_Split<T>(a: seq<T>, s: int, t: int, u: int, x: T)
   requires 0 <= s <= t <= u <= |a|
   ensures Count(a, s, t, x) + Count(a, t, u, x) == Count(a, s, u, x)
-{
-  /* The postcondition of this method is proved automatically via Dafny's
-     induction tactic.  But if a manual proof had to be provided, it would
-     look like this:
-  if s != t {}
-  */
-}
+{}
 
 lemma Lemma_Unique<T>(a: seq<T>, s: int, t: int, x: T, y: T)
   requires 0 <= s <= t <= |a|
   ensures x != y ==> Count(a, s, t, x) + Count(a, s, t, y) <= t - s
-{
-  /* The postcondition of this method is proved automatically via Dafny's
-     induction tactic.  But if a manual proof had to be provided, it would
-     look like this:
-  if s != t {}
-  */
-}
+{}
 
 // ------------------------------------------------------------------------------
 

@@ -8,84 +8,91 @@ module ModelingTM {
     class Transaction {}
 
     // Process state : transaction progress and process memory.
-    class ProcessState {
-        // currentTx : id of tx being processed. txs.size() means done.
-        const currentTx: nat
-        // currentOp :
-        //      - tx.ops.size() represents tryCommit operation.
-        //      - -1 represents abort operation
-        //      - values in between represent read and write operations
-        const currentOp: int
-        // sub-operations of the operation, see the step function
-        const currentSubOp: nat
+    class ProcessState {}
 
-        // Set of read objects with original observed timestamp.
-        const readSet: map<MemoryObject, TimeStamp>
-        // Set of written objects.
-        const writeSet: set<MemoryObject>
+    class TMSystem {
+        // Ordered list of transaction that each process should process
+        const txQueues : map<ProcessId, seq<Transaction>>
+        // State and memory of processes
+        const procStates : map<ProcessId, ProcessState>
+        // Dirty objects. (Replaces the object value in a real representation. Used for safety proof)
+        const dirtyObjs: set<MemoryObject>
+        // Object lock.
+        const lockedObjs: set<MemoryObject>
+        // Object timestamp. (Incremented at the end of any write transaction)
+        const objTimeStamps: map<MemoryObject, nat>
 
-        constructor () {}
+        constructor (q: map<ProcessId, seq<Transaction>>) {}
 
-        constructor nextSubOp(that: ProcessState)
-            ensures this.currentTx == that.currentTx
-            ensures this.currentOp == that.currentOp
-            ensures this.currentSubOp == that.currentSubOp + 1
-            ensures this.readSet == that.readSet
-            ensures this.writeSet == that.writeSet
+        constructor initTimestamp(that: TMSystem, obj: MemoryObject)
+            ensures txQueues == that.txQueues
+            ensures procStates == that.procStates
+            ensures dirtyObjs == that.dirtyObjs
+            ensures lockedObjs == that.lockedObjs
+            ensures objTimeStamps.Keys ==  that.objTimeStamps.Keys + {obj}
+                && objTimeStamps[obj] == 0
+                && forall o :: o in objTimeStamps && o != obj ==> objTimeStamps[o] == that.objTimeStamps[o]
+        {}
+        
+        constructor updateState(that: TMSystem, pid: ProcessId, state: ProcessState)
+            ensures txQueues == that.txQueues
+            ensures procStates.Keys == that.procStates.Keys + {pid}
+                && procStates[pid] == state
+                && forall p :: p in procStates && p != pid ==> procStates[p] == that.procStates[p]
+            ensures dirtyObjs == that.dirtyObjs
+            ensures lockedObjs == that.lockedObjs
+            ensures objTimeStamps ==  that.objTimeStamps
+        {}
+        
+        constructor markDirty(that: TMSystem, obj: MemoryObject)
+            ensures txQueues == that.txQueues
+            ensures procStates == that.procStates
+            ensures dirtyObjs == that.dirtyObjs + {obj}
+            ensures lockedObjs == that.lockedObjs
+            ensures objTimeStamps ==  that.objTimeStamps
+        {}
+        
+        constructor clearDirty(that: TMSystem, writeSet: set<MemoryObject>)
+            ensures txQueues == that.txQueues
+            ensures procStates == that.procStates
+            ensures dirtyObjs == that.dirtyObjs - writeSet
+            ensures lockedObjs == that.lockedObjs
+            ensures objTimeStamps ==  that.objTimeStamps
         {}
 
-        constructor nextOp(that: ProcessState)
-            ensures this.currentTx == that.currentTx
-            ensures this.currentOp == that.currentOp + 1
-            ensures this.currentSubOp == 0
-            ensures this.readSet == that.readSet
-            ensures this.writeSet == that.writeSet
+        constructor acquireLock(that: TMSystem, o: MemoryObject)
+            ensures txQueues == that.txQueues
+            ensures procStates == that.procStates
+            ensures dirtyObjs == that.dirtyObjs
+            ensures lockedObjs == that.lockedObjs + {o}
+            ensures objTimeStamps == that.objTimeStamps
         {}
 
-        constructor abortTx(that: ProcessState)
-            ensures this.currentTx == that.currentTx
-            ensures this.currentOp == -1
-            ensures this.currentSubOp == 0
-            ensures this.readSet == that.readSet
-            ensures this.writeSet == that.writeSet
+        constructor releaseLocks(that: TMSystem, objs: set<MemoryObject>)
+            ensures txQueues == that.txQueues
+            ensures procStates == that.procStates
+            ensures dirtyObjs == that.dirtyObjs
+            ensures lockedObjs == that.lockedObjs - objs
+            ensures objTimeStamps ==  that.objTimeStamps
+        {}
+        
+        constructor updateTimestamps(that: TMSystem, objs: set<MemoryObject>)
+            ensures txQueues == that.txQueues
+            ensures procStates == that.procStates
+            ensures dirtyObjs == that.dirtyObjs
+            ensures lockedObjs == that.lockedObjs
+            ensures objTimeStamps.Keys == that.objTimeStamps.Keys
+                && forall o :: o in that.objTimeStamps ==>
+                if(o in objs) then objTimeStamps[o] != that.objTimeStamps[o] else objTimeStamps[o] == that.objTimeStamps[o]
         {}
 
-        constructor restartTx(that: ProcessState)
-            ensures this.currentTx == that.currentTx
-            ensures this.currentOp == 0
-            ensures this.currentSubOp == 0
-            ensures this.readSet == map[]
-            ensures this.writeSet == {}
+        predicate stateValid(pid: ProcessId, state: ProcessState)
+            requires pid in procStates && state == procStates[pid]
         {}
 
-        constructor nextTx(that: ProcessState)
-            ensures this.currentTx == that.currentTx + 1
-            ensures this.currentOp == 0
-            ensures this.currentSubOp == 0
-            ensures this.readSet == map[]
-            ensures this.writeSet == {}
-        {}
-
-        constructor addToReadSet(that: ProcessState, obj: MemoryObject, ts: TimeStamp)
-            ensures currentTx == that.currentTx
-            ensures currentOp == that.currentOp
-            ensures currentSubOp == that.currentSubOp
-            ensures readSet.Keys == that.readSet.Keys + {obj}
-                && readSet[obj] == ts
-                && forall o :: o in readSet && o != obj ==> readSet[o] == that.readSet[o]
-            ensures writeSet == that.writeSet
-        {}
-
-        constructor addToWriteSet(that: ProcessState, obj: MemoryObject)
-            ensures this.currentTx == that.currentTx
-            ensures this.currentOp == that.currentOp
-            ensures this.currentSubOp == that.currentSubOp
-            ensures this.readSet == that.readSet
-            ensures this.writeSet == that.writeSet + {obj}
+        predicate validSystem()
         {}
     }
-
-    class TMSystem {}
     
 
     method Step(input: TMSystem, pid: ProcessId) returns (system: TMSystem)

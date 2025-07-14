@@ -37,14 +37,7 @@ lemma SomethingNonsensical()
  * as ensures clauses of lemmas, the typical way they'd be packaged in Dafny. */
 lemma AdditionCommutes(n: int, m: int)
   ensures n + m == m + n
-{
-  // The proof of this lemma goes here. In this case (and in many others), no
-  // additional assistance is needed so an empty proof suffices.
-  //
-  // In Dafny, we won't talk much about proofs on their own - in a course on
-  // logic you might go over logical rules or proof trees - because Dafny is
-  // going to have all the power you need to prove things (as long as they're true!).
-}
+{}
 
 /* Let's start by going over the simplest logical connectives: && ("and") and ||
  * ("or"). In these examples think of the input booleans as being arbitrary
