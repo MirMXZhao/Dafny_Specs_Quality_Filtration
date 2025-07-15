@@ -75,10 +75,10 @@ if __name__ == "__main__":
         "output": []
     }
 
-    for fileid in range(data):
-        output = check_body(file)
-        result["filename"].append(file)
-        result["output"].append(output)
+    for i in range(len(data["filename"])):
+        filename = data["filename"][i]
+        fileid = data["id"][i]
+        output = check_body(fileid)
 
     
     
