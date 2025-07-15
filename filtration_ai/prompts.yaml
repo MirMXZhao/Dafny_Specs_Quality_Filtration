@@ -1,0 +1,30 @@
+check_bodies: 
+  file: |
+    The file is as follows: 
+  task: | 
+    The task is to ensure that each of these Dafny programs, the body of all functions, lemmas, catches, 
+    methods, classes, etc. are completely removed so that only specifications and comments remain.
+    These bodies are usually found between {}. However, some structures are enclosed in {} but should not 
+    be removed, such as sets. Specifications (requires and ensures statements) should remain. Nested versions of 
+    these structures should also remain. 
+  output_request: |
+    output ONLY one word, TRUE or FALSE. 
+    output YES if the body of all functions, lemmas, catches, methods, classes, etc. of the file have been completely removed
+    output FALSE if any body of a function remains. 
+
+filter_problems: 
+  overall_goal: |
+    The overarching goal of this project is to create a benchmark consisting of Dafny specifications for
+    useful problems
+  task: |
+    The task is to filter these Dafny specs for useful problems for the benchmark. The criteria for usefulness is:
+    - the methods are well named and descriptive
+    - the purpose of the spec should be easy to understand
+    - the file should be in English
+    - the problem shouldn't be too easy (for example, just having a spec ensures x == y is too easy)
+    - the problem shouldn't be too difficult (doable by a programmer with 1 - 2 years of experience)
+    - the methods of the file should all be related to each other in some sense. There should be a main goal of the methods in the file
+    - all methods, lemmas should have specifications (requires and ensures statements). The only exception to this is main and tester functions. 
+  output: |
+    please output ONLY one word, KEEP or TRASH. output KEEP if this spec will be useful for some benchmark, or could be easily
+    modified to be useful. output TRASH otherwise. 
