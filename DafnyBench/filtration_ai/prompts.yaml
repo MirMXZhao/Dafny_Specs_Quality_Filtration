@@ -1,0 +1,178 @@
+check_bodies: 
+  task: | 
+    The task is to ensure that each of these Dafny programs, the body of all functions, lemmas, catches, 
+    methods, classes, etc. are completely removed so that only specifications and comments remain.
+    These bodies are usually found between {}. However, some structures are enclosed in {} but SHOULD NOT
+    be removed, such as sets. Specifications (requires and ensures statements) should remain. Nested versions of 
+    these structures should also remain. 
+  output_request: |
+    output ONLY one word, TRUE or FALSE. 
+    output TRUE if the body of all functions, lemmas, catches, methods, classes, etc. of the file have been completely removed
+    output FALSE if any body of a function, lemma, catch, or method remains
+  file: |
+    The file is as follows: 
+
+filter_problems: 
+  overall_goal: |
+    The goal of this project is to curate a benchmark of Dafny specifications (WITHOUT implementations) representing useful programming problems.
+  task: |
+    The task is to filter these Dafny specs for useful problems for the benchmark. To be useful, all 7 of these criteria need to be satisified: 
+    1. methods have well-chosen, descriptive names
+    2. the purpose of all methods, lemmas, predicates, etc. should be easy to understand
+    3. the spec should be in English (as opposed to spanish or german or another language)
+    4. the problem shouldn't be far too trivial (for example, just having a spec ensures x == y is too easy)
+    5. the problem shouldn't be too difficult (doable by a programmer with 1 - 2 years of experience)
+    6. the files methods and lemmas are conceptually related and work toward a common goal
+    7. all methods, lemmas, etc. (except for `main` or test functions) include `requires` and `ensures` specifications.
+    IMPORTANT: Whether or not its missing bodies for predicates, lemmas, methods does not affect the usefulness of the specification.
+  output_request: |
+    Respond in **EXACTLY** the following form, with no preamble or other words. It must be EXACTLY 3 lines:
+    - first line: ONLY one word, KEEP or TOSS. output KEEP if this specification will be useful for some benchmark, or could be easily
+    modified to be useful. output TOSS otherwise. 
+    - second line: a list of violated criteria numbers if the its TOSS, and "NONE" otherwise
+    - third line: a brief description of your reasoning.
+  file: |
+    The file is as follows: 
+
+filter_problems_2: 
+  overall_goal: |
+    The goal of this project is to curate a benchmark suite of Dafny **specifications only** (i.e., without implementations) that represent useful and non-trivial programming problems.
+  task: | 
+    Your task is to determine whether a given Dafny specification is appropriate for inclusion in this benchmark.
+    Reject specifications that are too simple to meaningfully test a model's ability to fill in the body of the function 
+  examples: |
+    Examples:
+    **Too Easy (TOSS)**:  
+      method CountNonEmptySubstrings(s: string) returns (count: int)  
+      ensures count >= 0  
+      ensures count == (|s| * (|s| + 1)) / 2  
+      {}  
+      This specification is too simple because its a direct formula with no complexity or abstraction.  
+
+    **Also Too Easy**:  
+      - A spec that just computes an integer square root.
+      - slicing an array into 2 arrays around an index
+
+    **Acceptable (KEEP)**:
+      - A spec requiring Fibonacci number computation with pre/post conditions.
+      - Verifying that all sequences in a list of sequences are the same length.
+      - Generating a new map from an existing map by removing keys in a given set.
+      - finding the second largest value of an array
+      - outputing an array of all the odd numbers from an input array
+
+  output_request: |
+    Respond in **EXACTLY** the following format, with no preamble or additional commentary. Output must be exactly two lines:
+      - First line: a single word, either KEEP or TOSS.  
+        - Output KEEP if the spec is suitable for the benchmark, or could be easily modified to be suitable.
+        - Output TOSS if it is not.
+      - Second line: a brief justification explaining your decision.
+  file: |
+    The file is as follows: 
+
+filter_problems_3: 
+  overall_goal: |
+    The goal of this project is to curate a benchmark suite of Dafny **specifications only** (i.e., without implementations) that represent useful and non-trivial programming problems.
+  task: | 
+    Your task is to determine whether a given Dafny specification is appropriate for inclusion in this benchmark.
+    Reject specifications that are impossible to verify automatically through Dafny. In other words, tasks that are not fully specified. 
+  examples: |
+    Examples of inappropriate specs:
+    1. If the result of a function is not verifiable by Dafny:
+      function fib(n: nat): nat
+      {}
+
+      method ComputeFib(n: nat) returns (f: nat)
+        ensures f == fib(n);
+      {}
+
+    2. Dafny cannot verify time complexity:
+      method mroot2(n:int) returns (r:int) //Cost O(n)
+        requires n>=0
+        ensures r>=0 && r*r <= n <(r+1)*(r+1)
+      {}
+    
+    And all other tasks that cannot be fully verified by dafny in its given form. 
+  output_request: |
+    Respond in **EXACTLY** the following format, with no preamble or additional commentary. Output must be exactly two lines:
+      - First line: a single word, either KEEP or TOSS.  
+        - Output KEEP if the spec is suitable for the benchmark, or could be easily modified to be suitable.
+        - Output TOSS if it is not.
+      - Second line: a brief justification explaining your decision.
+  file: |
+    The file is as follows: 
+
+write_tests:
+  overall_goal: |
+    Your task is to write **unit test methods only** in Dafny.
+
+    For each Dafny specification provided:
+    - Write **exactly 2 test methods**.
+    - Each test must use concrete input values and assert **all return values**.
+    - Do **not** write any function or method implementations.
+    - The goal is to validate correctness using example-based tests only.
+
+  examples: |
+    Given the specification:
+
+    method below_zero(operations: seq<int>) returns (s: array<int>, result: bool)
+      ensures s.Length == |operations| + 1
+      ensures s[0] == 0
+      ensures forall i :: 0 <= i < s.Length - 1 ==> s[i+1] == s[i] + operations[i]
+      ensures result == true ==> (exists i :: 1 <= i <= |operations| && s[i] < 0)
+      ensures result == false ==> forall i :: 0 <= i < s.Length ==> s[i] >= 0
+    {}
+
+    Correct test methods:
+
+    method TestBelowZero1() {
+      var operations := [1, 2, -4, 5];
+      var s, result := below_zero(operations);
+      assert s == [0, 1, 3, -1, 4];
+      assert result == true;
+    }
+
+    method TestBelowZero2() {
+      var operations := [1, 2, 3, 1];
+      var s, result := below_zero(operations);
+      assert s == [0, 1, 3, 6, 7];
+      assert result == false;
+    }
+
+    If a method returns multiple outputs, all outputs **must be asserted**.
+
+  output_request: |
+    Your response must include **only Dafny test method definitions**, beginning with the word `method`.
+
+    **Do not** include:
+    - Triple backticks (```) or any code block formatting
+    - Comments, explanations, repeated specs, or headers
+    - Any text outside of the two test methods per specification
+
+     **Each test must:**
+    - Use valid Dafny syntax
+    - Assert on **all return values**
+    - Be copy-paste ready into a `.dfy` file
+
+    If a function or method returns more than one value, assert on **every value** returned.
+
+  file: |
+    The file is as follows:
+
+write_implementation:
+  overall_goal: |
+    the goal is to implement the following specifications in Dafny
+  output_request: | 
+    Your response should have the filled in 
+    **Do not** include:
+    - Triple backticks (```) or any code block formatting
+    - Comments, explanations, repeated specs, or headers
+    - Any text outside of the two test methods per specification
+
+    **Each implementation must:**
+    - Use valid Dafny syntax
+    - Be copy-paste ready into a `.dfy` file
+    - be completely validated in dafny
+
+    **DO NOT** edit the specifications or the tests, but you may add additional lemmas if needed. 
+  file: |
+    The file is as follows:
