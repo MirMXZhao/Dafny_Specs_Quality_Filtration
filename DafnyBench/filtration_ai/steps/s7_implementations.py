@@ -1,6 +1,6 @@
 import os 
 import pandas as pd
-from formatted_prompts import prompts
+from DafnyBench.filtration_ai.steps.formatted_prompts import prompts
 import anthropic
 import json
 import time
@@ -9,6 +9,7 @@ import threading
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
 
 def impls_problem_concurrent(data, prompts, filtered, maxTokens=100, sheetName = 'sheet2', max_workers=10):
     """Concurrent processing alternative"""
@@ -24,7 +25,7 @@ def impls_problem_concurrent(data, prompts, filtered, maxTokens=100, sheetName =
                 system=[
                     {
                         "type": "text",
-                        "text": prompts["wrs"]["overall_goal"] + prompts["write_tests"]["examples"],
+                        "text": prompts["write_implementation"]["overall_goal"],
                         "cache_control": {"type": "ephemeral"}
                     }
                 ],
@@ -34,7 +35,7 @@ def impls_problem_concurrent(data, prompts, filtered, maxTokens=100, sheetName =
                         "content": [
                             {
                                 "type": "text",
-                                "text": prompts["write_tests"]["output_request"] + prompts["write_tests"]["file"],
+                                "text": prompts["write_implementation"]["output_request"] + prompts["write_implementation"]["file"],
                                 "cache_control": {"type": "ephemeral"}
                             },
                             {

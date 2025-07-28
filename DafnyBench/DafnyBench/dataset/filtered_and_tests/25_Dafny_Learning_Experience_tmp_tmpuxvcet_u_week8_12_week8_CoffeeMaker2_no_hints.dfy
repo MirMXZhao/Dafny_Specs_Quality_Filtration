@@ -88,9 +88,6 @@ class CoffeeMaker {
 
 method CoffeeTestHarness() {}
 
-
-
-
 method CoffeeTestHarness1() {
   var cm := new CoffeeMaker();
   assert cm.Valid();

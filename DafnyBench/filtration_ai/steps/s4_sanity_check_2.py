@@ -1,6 +1,6 @@
 import os 
 import pandas as pd
-from formatted_prompts import prompts
+from DafnyBench.filtration_ai.steps.formatted_prompts import prompts
 import anthropic
 import json
 import time
@@ -35,7 +35,7 @@ def intermediate_filter():
     return prevKeep
 
 def extract(prevKeep):
-    df = pd.read_excel("/Users/cinnabon/Documents/MIT/UROP_2025/DafnyBench/output.xlsx", sheet_name="Sheet1")
+    df = pd.read_excel("DafnyBench/filtration_ai/results/full_manual_filtration.xlsx", sheet_name="Sheet1")
     prevData = df.to_dict(orient="list")
 
     for i in range(len(prevData["file_name"])):
