@@ -101,6 +101,58 @@ filter_problems_3:
   file: |
     The file is as follows: 
 
+unify_format: 
+  overall_goal: |
+    Your goal is to REMOVE two parts of the code:
+      1. comments that are NOT necessary or useful in explaining the code. Comments are indicated by // and /* */
+      2. methods such as "Main" and "Test" that have no requires and ensures statements. 
+  example: |
+    There are several types of comments you should delete: 
+      Titles, such as: 
+      /*
+        CS:5810 Formal Methods in Software Engineering
+        Fall 2017
+        The University of Iowa
+        Credits: Example adapted from Dafny tutorial
+      */
+
+      Notes that are not relevant to the code, such as: 
+      // About Dafny:
+      // As always (when it is successful), Dafny verifies that the program does not
+      // cause any run-time errors (like array index bounds errors), that the program
+      // terminates, that expressions and functions are well defined, and that all
+
+      Notes that reexplain what the code already does, such as: 
+      /*Pre-Condition*/   requires X.Length>=1 && n == X.Length;
+      /*Post-Condition*/  ensures b>=n;
+      
+    **KEEP** comments that are necessary in explaining an under specified function/method/etc., such as:
+      // This predicate checks if the car park is in a valid state at all times.
+      // It checks if the sets of cars in the car park and the reserved car park are disjoint and share no values,
+      // the total number of cars in the car park is less than or equal to the total number of spaces in
+      // the car park plus the bad parking buffer, the number of normal spaces plus reserved spaces is
+      // equal to the total number of spaces, and the number of cars in the reserved car park is less than or equal
+      // to the number of reserved spaces
+      ghost predicate Valid()
+      reads this
+      {}
+
+  output_request: | 
+    Output the same code as the input but with the comments and main/test methods removed. 
+
+    **Do not**:
+      - Include triple backticks (```) or any code block formatting
+      - Any additions or implementations
+
+    **Each output must:**
+    - Use valid Dafny syntax
+    - Be copy-paste ready into a `.dfy` file
+
+    **DO NOT** edit anything other than the comments and unecessary functions. DO NOT IMPLEMENT the functions. Just get rid of comments and unnecessary functions. 
+  file: |
+    The file is as follows: 
+
+  
 write_tests:
   overall_goal: |
     Your task is to write **unit test methods only** in Dafny.
@@ -149,6 +201,7 @@ write_tests:
     - Any text outside of the two test methods per specification
 
      **Each test must:**
+    - have a title of test{function it's testing}{number of test} 
     - Use valid Dafny syntax
     - Assert on **all return values**
     - Be copy-paste ready into a `.dfy` file
@@ -158,11 +211,47 @@ write_tests:
   file: |
     The file is as follows:
 
+iterative_tests: 
+  overall_goal: | 
+    Ensure that the tests written are sufficient and correct for the body of the file.
+    Sufficient: 
+      - every method and function has at least two test methods 
+      - a range of cases are covered for each method. 
+      - all outputs for a given method have assert statements. 
+
+    Correct: 
+      - every test accurately represents and verifies what the method is supposed to do. 
+    
+  output_request: | 
+    If the current tests are sufficient and correct, output them exactly as they are
+
+    Otherwise: Output all current correct tests (renumbered if necessary) as well as new Dafny test methods if the old tests were insufficient. you may add at most ONE more test per method/function.  
+
+    **Do not** include:
+    - Triple backticks (```) or any code block formatting
+    - Comments, explanations, repeated specs, or headers
+    - Any text outside of the new test methods
+    - the previous tests 
+
+    **Each test must:**
+    - Use valid Dafny syntax
+    - Assert on **all return values**
+
+    DO NOT include any text outside of these requests. Your response must be copy and paste ready to go into a Dafny file. 
+  
+  tests: | 
+    The current tests are as follows: 
+    
+  file: | 
+    The file is as follows: 
+
+
+
 write_implementation:
   overall_goal: |
     the goal is to implement the following specifications in Dafny
   output_request: | 
-    Your response should have the filled in 
+    Your response should have the filled in implementation
     **Do not** include:
     - Triple backticks (```) or any code block formatting
     - Comments, explanations, repeated specs, or headers
