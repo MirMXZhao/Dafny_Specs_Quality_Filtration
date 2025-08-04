@@ -5,7 +5,7 @@ def load_prompts(path="prompts.yaml"):
     script_dir = os.path.dirname(__file__)
 
     # Join it with the config filename
-    config_path = os.path.join(script_dir, "prompts.yaml")
+    config_path = os.path.join(script_dir, path)
 
     with open(config_path, "r") as f:
         data = yaml.safe_load(f)

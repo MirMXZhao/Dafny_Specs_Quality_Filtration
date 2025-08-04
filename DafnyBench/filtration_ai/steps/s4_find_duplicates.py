@@ -139,31 +139,6 @@ def identify_duplicates(minVal):
 
     return duplicates
 
-# def identify_connected_components(edges):
-#     # Build adjacency list
-#     graph = defaultdict(list)
-#     for u, v in edges:
-#         graph[u].append(v)
-#         graph[v].append(u)
-
-#     visited = set()
-#     components = []
-
-#     def dfs(node, component):
-#         visited.add(node)
-#         component.add(node)
-#         for neighbor in graph[node]:
-#             if neighbor not in visited:
-#                 dfs(neighbor, component)
-
-#     for node in graph:
-#         if node not in visited:
-#             component = set()
-#             dfs(node, component)
-#             components.append(component)
-
-#     return components
-
 def build_graph(edges):
     graph = defaultdict(set)
     for u, v in edges:
