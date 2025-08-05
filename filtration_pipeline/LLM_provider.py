@@ -217,8 +217,10 @@ class OpenAIProvider(LLMProvider):
             print(f"Error processing message: {str(e)}")
             return "ERROR"
     
-    def embed_file(self, text: str, model: str = "text-embedding-3-small") -> Optional[List[float]]:
+    def embed_file(self, filepath: str, model: str = "text-embedding-3-small") -> Optional[List[float]]:
         """Generate embedding for a single text"""
+        with open(filepath, 'r') as file:
+            text = file.read()
         try:
             response = self.client.embeddings.create(
                 model=model,
@@ -229,27 +231,27 @@ class OpenAIProvider(LLMProvider):
             print(f"Error generating embedding: {e}")
             return None
         
-    def embed_files(self, files: List[str]) -> Dict[str, List]:
-        """
-        Generate embeddings for multiple files
-        Returns a dictionary with filenames and their embeddings
-        """
-        embedding_results = {
-            "filename": [],
-            "embedding": []
-        }
+    # def embed_files(self, files: List[str]) -> Dict[str, List]:
+    #     """
+    #     Generate embeddings for multiple files
+    #     Returns a dictionary with filenames and their embeddings
+    #     """
+    #     embedding_results = {
+    #         "filename": [],
+    #         "embedding": []
+    #     }
 
-        for filepath in files:
-            content = read_file(filepath)
-            if not content: 
-                continue
+    #     for filepath in files:
+    #         content = read_file(filepath)
+    #         if not content: 
+    #             continue
             
-            embedding = self.embed_file(content)
-            if embedding:
-                embedding_results["filename"].append(os.path.basename(filepath))
-                embedding_results["embedding"].append(embedding)
+    #         embedding = self.embed_file(content)
+    #         if embedding:
+    #             embedding_results["filename"].append(os.path.basename(filepath))
+    #             embedding_results["embedding"].append(embedding)
         
-        return embedding_results
+    #     return embedding_results
 
 
     

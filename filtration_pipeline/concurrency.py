@@ -163,19 +163,19 @@ class Concurrency:
         print(f"Completed: {completed}/{len(inputs)}, Errors: {errors}")
         return results
     
-    def embed_texts(self, 
-                   texts: List[str], 
+    def embed_files(self, 
+                   filepaths: List[str], 
                    model: str = "text-embedding-3-small") -> List[Optional[List[float]]]:
         """
         Concurrently embed a list of texts using the OpenAIProvider.
         Returns a list of embeddings (same order as input).
         """
-        embeddings = [None] * len(texts)
+        embeddings = [None] * len(filepaths)
 
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             future_to_index = {
-                executor.submit(self.open_provider.embed_file, text, model): i
-                for i, text in enumerate(texts)
+                executor.submit(self.open_provider.embed_file, filepath, model): i
+                for i, filepath in enumerate(filepaths)
             }
 
             for future in as_completed(future_to_index):

@@ -15,6 +15,9 @@ This pipeline can be used to filter any future sets of Dafny specifications for 
 4. Anthropic key, set ANTHROPIC_API_KEY in environment 
 
 ### How it works 
+CURRENTLY THE CODE IS GETTING REFACTORED, with the refactored code in filtration/pipeline
+*you can run it from main.py
+
 The primary code can be found in DafnyBench/filtration_ai/steps. 
 The pipeline is divided into 7 steps, each of which is labelled with s{step number}_{stepdescription}.py
 Further details can be found in this [slideshow](https://docs.google.com/presentation/d/1VtDcfhTLdbei7ASAGwJDzfwwEMaWUoMeusueroLxY8I/edit?usp=sharing)

@@ -2,7 +2,8 @@ import os
 import pandas as pd
 from typing import List, Dict, Any, Optional
 from LLM_provider import OpenAIProvider, AnthropicProvider 
-from concurrency import Concurrency
+from Concurrency import Concurrency
+from DuplicateFinder import DuplicateFinder
 from helpers import read_file, extract_dafny_code, load_prompts
 from automated_count import find_noncommented_statement_indices, num_methods_ensures
 import random
@@ -84,31 +85,17 @@ class Pipeline:
         manual_check_arr = []
         for i in range(kept): 
             index = random_kept[i]
-            # filename = step_results["filename"][index]
             filepath = step_results["filepath"][index]
-            # reasoning = step_results["reasoning"][index] if "reasoning" in step_results else "No reasoning provided"
-            # manual_check_arr.append(f"// Kept File {i+1}:\n")
-            # manual_check_arr.append(f"// Filename: {filename}\n")
-            # manual_check_arr.append(f"// Reasoning: {reasoning}\n")
             manual_check_arr.append(f"// Kept File {i+1}:\n")
             for key in step_results.keys():
                 manual_check_arr.append(f"// {key}: {step_results[key][index]}\n")
             with open(filepath, 'r') as file:
                 content = file.read()
                 manual_check_arr.append(f"\n{content}\n")
-            
-            
-        
+
         for i in range(tossed): 
             index = random_tossed[i]
-            # filename = step_results["filename"][index]
             filepath = step_results["filepath"][index]
-            # reasoning = step_results["reasoning"][index] if "reasoning" in step_results else "No reasoning provided"
-            # violated = step_results["violated"][index] if "violated" in step_results else ""
-            # manual_check_arr.append(f"// Tossed File {i+1}:\n")
-            # manual_check_arr.append(f"// Filename: {filename}\n")
-            # manual_check_arr.append(f"// Violated: {violated}\n")
-            # manual_check_arr.append(f"// Reasoning: {reasoning}\n")
             manual_check_arr.append(f"// Tossed File {i+1}:\n")
             for key in step_results.keys():
                 manual_check_arr.append(f"// {key}: {step_results[key][index]}\n")
@@ -365,10 +352,32 @@ class Pipeline:
             else:
                 data["keepToss"].append("KEEP")
         
-        print(data)
         self.save_data("step_three", data, output_file, debug=debug)
 
         return data
+    
+    def step_four_delete_duplicates(self,
+                                    input_file: str = "count_s3.xlsx",
+                                    output_file: str = "duplicates_s4.xlsx",
+                                    debug: bool = False) -> Dict[str, List]:
+        file_paths = self.get_filepaths(input_file, debug=debug)
+
+        duplicate_finder = DuplicateFinder(file_paths, input_file, output_file, self.concurrency, 0.85)
+
+        duplicate_finder.run()
+
+        step_name = "step_four"
+        self.results[step_name] = os.path.join(self.results_dir, output_file)
+        if debug:
+            self.manual_check(step_name, kept = 2, tossed = 2)
+        else:
+            self.manual_check(step_name)
+    
+    def step_five_unify_format(self, 
+                               input_file: str = "duplicates_s4.xlsx",
+                               output_file: str = "final_results.xlsx",
+                               debug: bool = False) -> Dict[str, List]:
+        a = 2
     
     def run_full_pipeline(self, 
                          output_dir: str = "./results",
