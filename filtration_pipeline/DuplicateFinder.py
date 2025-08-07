@@ -28,6 +28,11 @@ class DuplicateFinder():
         self.final_result = []
         
     def get_embedding(self) -> List[float]:
+        """
+        Get embeddings for all files in the filepaths list.
+        This method uses the Concurrency class to embed files concurrently.
+        results stored in embedding_results. 
+        """
         self.embedding_results["filename"] = [os.path.basename(filepath) for filepath in self.filepaths]
         self.embedding_results["embedding"] = self.concurrency.embed_files(self.filepaths)
         output_path = os.path.join(self.output_dir, "embeddings.json")
@@ -35,6 +40,9 @@ class DuplicateFinder():
             json.dump(self.embedding_results, f, indent=2)
     
     def pairwise_all(self):
+        """
+        Compute pairwise cosine similarity for all embeddings.
+        """
         if len(self.embedding_results["filename"]) == 0:
             with open( os.path.join(self.output_dir, "embeddings.json"), "r") as f:
                 self.embedding_results = json.load(f)
@@ -60,6 +68,10 @@ class DuplicateFinder():
             json.dump(result, f, indent=2)
 
     def cosine_similarity(self, embed1, embed2):
+        """
+        Compute the cosine similarity between two embeddings. 
+        Returns a float value between -1 and 1.
+        """
         embed1 = np.array(embed1)
         embed2 = np.array(embed2)
         
@@ -73,6 +85,9 @@ class DuplicateFinder():
         return dot_product / (norm1 * norm2)
     
     def format_results(self, matrix, filenames):
+        """
+        reformats similarity matrix to be enterable into a spreadsheet
+        """
         formatted = dict()
 
         for i in range(len(filenames)):
@@ -80,7 +95,11 @@ class DuplicateFinder():
         
         return formatted
     
-    def identify_duplicates(self,):
+    def identify_duplicates(self):
+        """
+        Identify duplicates based on the similarity matrix.
+        Returns a list of tuples where each tuple contains the filenames of the duplicates.
+        """
         duplicates = [] 
         for i in range(len(self.similarity_matrix)):
             for j in range(len(self.similarity_matrix[i])):
@@ -91,6 +110,11 @@ class DuplicateFinder():
         return duplicates
 
     def build_graph(self, edges):
+        """
+        Build a graph from the list of edges.
+        Each edge is a tuple of two filenames.
+        Returns a dictionary where keys are filenames and values are sets of connected filenames.
+        """
         graph = defaultdict(set)
         for u, v in edges:
             graph[u].add(v)

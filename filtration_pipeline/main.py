@@ -12,8 +12,9 @@ def test():
     # pipeline.step_one_filter_layer_1()
     # pipeline.step_two_filter_layer_2()
     # pipeline.step_three_sanity_check()
-    pipeline.step_four_delete_duplicates()
-
+    # pipeline.step_four_delete_duplicates()
+    # pipeline.step_five_unify_format(debug=True)
+    pipeline.step_six_create_tests(debug=True)
 
 if __name__ == "__main__":
     test() 
