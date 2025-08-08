@@ -62,7 +62,8 @@ class Pipeline:
         self.steps_run = 0 
         self.step_zero_make_first_spreadsheet()
 
-    
+        self.files = []
+
     def manual_check(self, step: str, kept: int = 15, tossed: int = 15) -> None:
         """
         Outputs kept Kept files and toss Tossed files for manual checking into a file for ease of access. 
@@ -163,6 +164,8 @@ class Pipeline:
         else:
             self.manual_check(step_name)
 
+        self.steps_run += 1
+
     def get_filepaths(self, input_file: str, debug: bool = False):
         """
         Get file paths marked as KEEP from the input spreadsheet
@@ -211,6 +214,11 @@ class Pipeline:
         Returns:
             Dictionary with filtering results
         """
+        if 
+        input_file: str = str(self.steps_run) + "s0_initial_spreadsheet.xlsx"
+        output_file: str = str(self.steps_run) + "s1_filter.xlsx"
+
+
         file_paths = self.get_filepaths(input_file, debug=debug)
         
         print(f"Processing {len(file_paths)} files for filtering...")
@@ -421,6 +429,7 @@ class Pipeline:
             self.manual_check(step_name, kept = 2, tossed = 2)
         else:
             self.manual_check(step_name)
+
         
     def step_five_unify_format(self, 
                                input_file: str = "s4_duplicates.xlsx",
@@ -523,6 +532,7 @@ class Pipeline:
             self.run_full_pipeline(results_dir=f"./run_{i}/results", manual_check_dir=f"./run_{i}/manual_check")
         
         print("\n=== Pipeline completed for all iterations ===\n")
+
     def run_full_pipeline(self, 
                           results_dir: str = None,
                           manual_check_dir: str = None) -> None:
