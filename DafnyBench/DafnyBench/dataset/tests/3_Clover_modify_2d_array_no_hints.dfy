@@ -32,7 +32,7 @@ method TestModifyArrayElement2() {
   arr2[0] := 9; arr2[1] := 10; arr2[2] := 11;
   var arr := new array<nat>[2];
   arr[0] := arr1; arr[1] := arr2;
-  modify_array_element(arr, 0, 1, 25);
-  assert arr[0][0] == 7 && arr[0][1] == 25;
+  modify_array_element(arr, 0, 1, 15);
+  assert arr[0][0] == 7 && arr[0][1] == 15;
   assert arr[1][0] == 9 && arr[1][1] == 10 && arr[1][2] == 11;
 }

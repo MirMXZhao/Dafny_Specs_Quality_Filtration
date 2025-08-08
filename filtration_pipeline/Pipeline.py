@@ -14,12 +14,11 @@ class Pipeline:
     """
     
     def __init__(self, 
+                 run_num: int,
                  max_workers: int = 10,
                  anthro_model: str = "claude-sonnet-4-20250514", 
                  open_model: str = "gpt-4",
                  prompts_path: str = "prompts.yaml", 
-                 results_dir: str = "./filtration_pipeline/results", 
-                 manual_check_dir: str = "./filtration_pipeline/manual_check",
                  root_dir: str = "/Users/cinnabon/Documents/MIT/UROP_2025/DafnyBench/DafnyBench/dataset/body_removed") -> None:
         """
         Initialize the pipeline with providers and configuration
@@ -30,30 +29,37 @@ class Pipeline:
             open_model: OpenAI model to use
             prompts_path: Path to prompts configuration file
         """
+
         self.anthro_provider = AnthropicProvider()
         self.open_provider = OpenAIProvider()
         self.concurrency = Concurrency(self.anthro_provider, self.open_provider, max_workers)
         self.anthro_model = anthro_model
         self.open_model = open_model
         self.prompts = load_prompts(prompts_path)
+
         self.max_workers = max_workers
         
-        # Results storage
-        self.results_dir = results_dir
-        os.makedirs(self.results_dir, exist_ok=True)
+        self.debug_num = 10 # Number of files to process in debug mode
         
-        self.manual_check_dir = manual_check_dir
-
-        self.debug_num = 5 # Number of files to process in debug mode
-
+        # Results storage
         self.results = {}
-
+        self.run_num = run_num
+        self.results_dir = "./run_" + str(self.run_num) + "/results"
+        os.makedirs(self.results_dir, exist_ok=True)        
+        self.manual_check_dir = "./run_" + str(self.run_num) + "/manual_check"
+        os.makedirs(self.manual_check_dir, exist_ok=True)   
+        self.summary_text = "./run_" + str(self.run_num) + "/summary.txt"
+        with open(self.summary_text, "w") as f:
+            f.write(" /\\_/\\\n( o.o )\n > ^ <\n" + "Pipeline initialized!\nRun Number: " + str(self.run_num) + "\n\n")
+         
+        # New files storage
         self.root_dir = root_dir
-        self.filtered_dir = os.path.join(os.path.dirname(self.root_dir), "filtered")
+        self.filtered_dir = os.path.join(os.path.dirname(self.root_dir), "run_" + str(self.run_num) + "/filtered")
         os.makedirs(self.filtered_dir, exist_ok=True)
-        self.tests_dir = os.path.join(os.path.dirname(self.root_dir), "tests")
+        self.tests_dir = os.path.join(os.path.dirname(self.root_dir), "run_" + str(self.run_num) + "/tests")
         os.makedirs(self.tests_dir, exist_ok=True)
 
+        self.steps_run = 0 
         self.step_zero_make_first_spreadsheet()
 
     
@@ -85,10 +91,23 @@ class Pipeline:
                 kept_indices.append(i)
             elif val == "TOSS":
                 tossed_indices.append(i)
-
-        print("Kept total: ", len(kept_indices))
-        print("Tossed total: ", len(tossed_indices))
         
+        step_descriptions = {
+            "step_one": "Filtering based on initial criteria",
+            "step_two": "Second layer of filtering",
+            "step_three": "Sanity check for ensures and requires statements",
+            "step_four": "Removing duplicates",
+            "step_five": "Unifying format",
+            "step_six": "Creating tests"
+        }
+        text_output = "===== Step: "+ step + ": " + step_descriptions[step] + "  ====="
+        text_output = text_output + "Kept total: " + str(len(kept_indices)) + "\nTossed total: " + str(len(tossed_indices)) + "\n"
+
+        # store and print kept and tossed 
+        print(text_output)
+        with open("filename.txt", "a") as f:
+            f.write(text_output)
+
         # samples randomly from the kept and tossed files
         kept = min(kept, len(kept_indices))
         tossed = min(tossed, len(tossed_indices))
@@ -145,6 +164,9 @@ class Pipeline:
             self.manual_check(step_name)
 
     def get_filepaths(self, input_file: str, debug: bool = False):
+        """
+        Get file paths marked as KEEP from the input spreadsheet
+        """
         input_file_path = os.path.join(self.results_dir, input_file)
         df = pd.read_excel(input_file_path)
         file_paths = [] 
@@ -177,8 +199,8 @@ class Pipeline:
         df_result.to_excel(output_filepath, sheet_name='Sheet1', index=False)
     
     def step_one_filter_layer_1(self, 
-                               input_file: str = "initial_spreadsheet_s0.xlsx",
-                               output_file: str = "filter_s1.xlsx", debug: bool = False) -> Dict[str, List]:
+                               input_file: str = "s0_initial_spreadsheet.xlsx",
+                               output_file: str = "s1_filter.xlsx", debug: bool = False) -> Dict[str, List]:
         """
         Step 1: Filter problems based on 7 criteria that aim to remove problems that aren't clearly understandable are too easy or difficult
         
@@ -251,8 +273,8 @@ class Pipeline:
         return results
     
     def step_two_filter_layer_2(self, 
-                                 input_file: str = "filter_s1.xlsx",
-                                 output_file: str = "filter_s2.xlsx",
+                                 input_file: str = "s1_filter.xlsx",
+                                 output_file: str = "s2_filter.xlsx",
                                  debug: bool = False) -> Dict[str, List]:
         """
         Step 3: Second layer of filtering
@@ -324,8 +346,8 @@ class Pipeline:
         return results
     
     def step_three_sanity_check(self, 
-                                input_file: str = "filter_s2.xlsx",
-                                output_file: str = "count_s3.xlsx", 
+                                input_file: str = "s2_filter.xlsx",
+                                output_file: str = "s3_count.xlsx", 
                                 debug: bool = False) -> Dict[str, List]:
         """
         Step 3: Sanity check
@@ -379,8 +401,8 @@ class Pipeline:
         return data
     
     def step_four_delete_duplicates(self,
-                                    input_file: str = "count_s3.xlsx",
-                                    output_file: str = "duplicates_s4.xlsx",
+                                    input_file: str = "s3_count.xlsx",
+                                    output_file: str = "s4_duplicates.xlsx",
                                     debug: bool = False, 
                                     bound: int = 0.9) -> Dict[str, List]:
         """
@@ -401,8 +423,8 @@ class Pipeline:
             self.manual_check(step_name)
         
     def step_five_unify_format(self, 
-                               input_file: str = "duplicates_s4.xlsx",
-                               output_file: str = "unify_s5.xlsx",
+                               input_file: str = "s4_duplicates.xlsx",
+                               output_file: str = "s5_unify.xlsx",
                                debug: bool = False) -> Dict[str, List]:
         if input_file is None:
             input_file = os.path.basename(self.results["step_four"])
@@ -439,14 +461,13 @@ class Pipeline:
             results["filename"].append(new_filename)
             results["filepath"].append(new_filepath)
             with open(new_filepath, 'w') as f:
-                f.write(response)
+                f.write("\n".join(extract_dafny_code(response)))
         
         self.save_data("step_five", results, output_file, debug=debug)
-
     
     def step_six_create_tests(self, 
-                               input_file: str = "unify_s5.xlsx",
-                               output_file: str = "tests_s6.xlsx",
+                               input_file: str = "s5_unify.xlsx",
+                               output_file: str = "s6_tests.xlsx",
                                debug: bool = False) -> Dict[str, List]:
         if input_file is None:
             input_file = os.path.basename(self.results["step_five"])
@@ -473,6 +494,9 @@ class Pipeline:
             "keepToss": [],
         }
 
+        # Create tests directory if it doesn't exist
+        os.makedirs(self.tests_dir, exist_ok=True)
+
         for i, (filepath, test) in enumerate(zip(file_paths, responses)):
             with open(filepath, 'r') as f:
                 original_content = f.read()
@@ -485,11 +509,20 @@ class Pipeline:
             results["keepToss"].append("KEEP")
 
             # write the contents to a new file
-            new_content = original_content + '\n\n////////TESTS////////\n\n' + test.strip() + '\n'
+            new_content = original_content + '\n\n////////TESTS////////\n\n' + ("\n".join(extract_dafny_code(test))).strip() + '\n'
 
             with open(new_filepath, 'w') as f:
                 f.write(new_content)
     
+    def repeated_run(self, ):
+        """
+        Run the pipeline multiple times with different run numbers
+        """
+        for i in range(1, 6):
+            print(f"\n=== Running pipeline iteration {i} ===\n")
+            self.run_full_pipeline(results_dir=f"./run_{i}/results", manual_check_dir=f"./run_{i}/manual_check")
+        
+        print("\n=== Pipeline completed for all iterations ===\n")
     def run_full_pipeline(self, 
                           results_dir: str = None,
                           manual_check_dir: str = None) -> None:
@@ -499,7 +532,6 @@ class Pipeline:
         steps_subset = [1, 2, 3, 4, 5, 6]
         self.run_subset(steps_subset, results_dir=results_dir, manual_check_dir=manual_check_dir)
 
-
     def run_subset(self, steps_subset: List[int], file_names: List[str] = None, results_dir: str = None, manual_check_dir: str = None):
         """
         Run a subset of the pipeline steps
@@ -508,7 +540,7 @@ class Pipeline:
             steps_subset is a list of numbers from 1 to 6 representing which steps to run
         """
         step_names = ["one", "two", "three", "four", "five", "six"]
-        possible_names = ["filter_s1.xlsx", "filter_s2.xlsx", "count_s3.xlsx", "duplicates_s4.xlsx", "final_results.xlsx"]
+        possible_names = ["s1_filter.xlsx", "s2_filter.xlsx", "s3_count.xlsx", "s4_duplicates.xlsx", "s5_unify.xlsx", "s6_addtests.xlsx"]
 
         if file_names is None or len(file_names) != len(steps_subset):
             file_names = []

@@ -1,0 +1,6 @@
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
