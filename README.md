@@ -19,6 +19,43 @@ The pipeline is divided into 7 steps, each of which is labelled with s{step numb
 5. Step 5: Deletes unnecessary comments and code
 6. Step 6: Generates tests for each function.
 
+## Structure
+```
+├── DafnyBench/DafnyBench/dataset/body_removed      #specs part of the original DafnyBench, with the body removed
+│   ├── 630-dafny_tmp_tmpz2kokaiq_Solution_no_hints.dfy
+│   ├── 703FinalProject_tmp_tmpr_10rn4z_DP-GD_no_hints.dfy
+│   ...
+├── filtration_pipeline/
+│   ├── automated_count.py                          # Counts the number of functions with no ensures statements
+│   ├── Concurrency.py                              # Operates running LLMS with threads
+│   ├── DuplicateFinder.py                          # Finds similar files for step 4
+│   ├── helpers.py                                  # Few helper functions to read prompts and files
+│   ├── LLM_provider.py                             # OpenAI and Anthropic classes
+│   ├── main.py                                     # Starting point of running the pipeline
+│   ├── Pipeline.py                                 # Steps of the pipeline
+│   ├── prompts.yaml                                # Prompts fed to the LLMs
+├── run_{run_num}/
+│   ├──  manual_check                               # 15 files kept and tossed and LLM reasoning, for manual user checking
+│   │   ├── 1r_s1_manual_check.dfy
+│   │   ├── 2_s3_manual_check.dfy
+│   │   ...
+│   ├──  new_filtered                               # Results of step 5: specs with unnecessary comments and methods (empty test() and Main() methods) removed 
+│   │   ├── 0_dafny-synthesis_task_id_598_no_hints.dfy
+│   │   ├── 1_dafny-synthesis_task_id_567_no_hints.dfy
+│   │   ...
+│   ├──  new_tests                                  # Results of step 6: tests for each method of each file
+│   │   ├── 0_dafny-synthesis_task_id_598_no_hints.dfy
+│   │   ├── 1_dafny-synthesis_task_id_567_no_hints.dfy
+│   │   ...
+│   ├──  results                                    # Summary of final decisions to keep/toss each file and the LLM outputs
+│   │   ├── 0_initial_spreadsheet.xlsx
+│   │   ├── 1_s1_filter.xlsx
+│   │   ├── 2_s3_count.xlsx 
+│   │   ...
+│   ├── summary.txt                                 # Summarizes the results of each step
+└── ...
+```
+
 ## Usage
 A pipeline is provided for easy, robust use on any folder of Dafny specifications. 
 All code for the pipeline can be found in the filtration_pipeline folder
@@ -46,12 +83,12 @@ The current code will run the full pipeline on a subset of 30 files in your spec
 There are several options for customization. 
 1. You can run any group of steps in any order, and duplicates are allowed. For example, if you want to run steps 5, 3, 4, 2, 2, 1 in that order, you can do so by running pipeline.run_subset([5, 3, 4, 2, 2, 1])
 2. You can run steps 1 and 2 n times, and decide to keep a file if the at least m of the LLM results decided to keep that file. This can be done by running repeated_step_run(step = 1, 3, 2). This would run the LLM on step one 3 times, and only decided to keep a file if it decided to keep the file at least 2 times. This can help you account for inaccuracies in the LLM. 
-3. You can set a different bound for step 4 by running step_four_delete_duplicates(bound = 0.7)
-4. You can reuse your results across multiple runs by setting starting_xlsx=("4_s5_unify.xlsx", 4) which would start you from file "4_s5_unify.xlsx" from your previous run. 
-
+3. You can set a different bound for step 4 by running step_four_delete_duplicates(bound = 0.7). The default is 
+4. You can reuse your results across multiple runs by setting starting_xlsx=("4_s5_unify.xlsx", 4) and run_num = {previous run number} which would start you from file "4_s5_unify.xlsx" from your previous run. 
 
 
 ### Outputs
+A full example of the outputs can be found in run_1 (except for step 2)
 
 The code has several different outputs:
 1. Progress, directly into the terminal. Every 10 completed LLM calls are indicated on the screen

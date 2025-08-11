@@ -20,7 +20,7 @@ class Pipeline:
                  open_model: str = "gpt-4",
                  prompts_path: str = "prompts.yaml", 
                  root_dir: str = "./DafnyBench/DafnyBench/dataset/body_removed",
-                 starting_xlsx: tuple[str, int] = None) -> None:
+                 starting_xlsx: str = None) -> None:
         """
         Initialize the pipeline with providers and configuration
         
@@ -69,11 +69,10 @@ class Pipeline:
 
         #make first spreadsheet
         if starting_xlsx is not None:
-            print(os.path.join(self.results_dir, starting_xlsx[0]))
-            if isinstance(starting_xlsx, tuple) and os.path.exists(os.path.join(self.results_dir, starting_xlsx[0])):
-                self.files.append(starting_xlsx[0])
-                print(f"Using existing spreadsheet: {starting_xlsx[0]}")
-                self.steps_run = starting_xlsx[1] + 1
+            if os.path.exists(os.path.join(self.results_dir, starting_xlsx)):
+                self.files.append(starting_xlsx)
+                print(f"Using existing spreadsheet: {starting_xlsx}")
+                self.steps_run = int(starting_xlsx[0]) + 1
             else:
                 print("entered starting file " + starting_xlsx + " does not exist")
                 self.step_zero_make_first_spreadsheet()
@@ -496,7 +495,7 @@ class Pipeline:
             inputs=file_paths,
             provider="anthro",
             input_type="filepaths",
-            max_tokens=500,
+            max_tokens=6000,
             model=self.anthro_model,
             progress_interval=10
         )
@@ -533,7 +532,7 @@ class Pipeline:
             inputs=file_paths,
             provider="anthro",
             input_type="filepaths",
-            max_tokens=500,
+            max_tokens=1000,
             model=self.anthro_model,
             progress_interval=10
         )

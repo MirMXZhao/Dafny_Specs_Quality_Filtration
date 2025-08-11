@@ -66,3 +66,15 @@ Tossed total: 15
 Input file: 0_initial_spreadsheet_s0.xlsx
 Results saved to ./run_0/results/1r3_s1_filter.xlsx
 
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
+===== Step: step_three: Sanity check for ensures and requires statements  =====
+Kept total: 6
+Tossed total: 0
+Input file: 7_s4_duplicates.xlsx
+Results saved to ./run_0/results/8_s3_count.xlsx
+
