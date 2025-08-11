@@ -1,0 +1,61 @@
+function SumUpto(A: array<real>, end: int): real
+  requires -1 <= end < A.Length
+  reads A
+{}
+
+function Sum(A: array<real>): real
+  reads A
+{}
+
+method Percentile(p: real, A: array<real>, total: real) returns (i: int)
+  requires forall i | 0 <= i < A.Length :: A[i] > 0.0
+  requires 0.0 <= p <= 100.0
+  requires total == Sum(A)
+  requires total > 0.0
+  ensures -1 <= i < A.Length
+  ensures SumUpto(A, i) <= (p/100.0) * total
+  ensures i+1 < A.Length ==> SumUpto(A, i+1) > (p/100.0) * total
+{}
+
+lemma PercentileUniqueAnswer(p: real, A: array<real>, total: real, i1: int, i2: int)
+  requires forall i | 0 <= i < A.Length :: A[i] > 0.0
+  requires 0.0 <= p <= 100.0
+  requires total == Sum(A)
+  requires total > 0.0
+
+  requires -1 <= i1 < A.Length
+  requires SumUpto(A, i1) <= (p/100.0) * total
+  requires i1+1 < A.Length ==> SumUpto(A, i1+1) > (p/100.0) * total
+
+  requires -1 <= i2 < A.Length
+  requires SumUpto(A, i2) <= (p/100.0) * total
+  requires i2+1 < A.Length ==> SumUpto(A, i2+1) > (p/100.0) * total
+
+  ensures i1 == i2
+{}
+
+lemma SumUpto_increase(A: array<real>, end1: int, end2: int)
+  requires forall i | 0 <= i < A
+
+////////TESTS////////
+
+method TestPercentile1() {
+  var A := new real[4];
+  A[0] := 1.0;
+  A[1] := 2.0;
+  A[2] := 3.0;
+  A[3] := 4.0;
+  var total := 10.0;
+  var i := Percentile(50.0, A, total);
+  assert i == 1;
+}
+
+method TestPercentile2() {
+  var A := new real[3];
+  A[0] := 5.0;
+  A[1] := 10.0;
+  A[2] := 15.0;
+  var total := 30.0;
+  var i := Percentile(25.0, A, total);
+  assert i == 0;
+}

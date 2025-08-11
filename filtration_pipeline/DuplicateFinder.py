@@ -12,11 +12,11 @@ import random
 from Concurrency import Concurrency
 
 class DuplicateFinder():
-    def __init__(self, filepaths: List[str], input_file:str, output_file: str, concurrency: Concurrency, bound: float = 0.85):
+    def __init__(self, filepaths: List[str], input_file:str, output_file: str, concurrency: Concurrency, output_dir:str, bound: float = 0.85):
         self.concurrency = concurrency
         self.filepaths = filepaths
         self.bound = bound
-        self.output_dir = "./filtration_pipeline/results"
+        self.output_dir = output_dir
         self.input_filepath = os.path.join(self.output_dir, input_file)
         self.output_filepath = os.path.join(self.output_dir, output_file) 
         self.embedding_results = {
@@ -43,9 +43,11 @@ class DuplicateFinder():
         """
         Compute pairwise cosine similarity for all embeddings.
         """
-        if len(self.embedding_results["filename"]) == 0:
-            with open( os.path.join(self.output_dir, "embeddings.json"), "r") as f:
+        if len(self.embedding_results["filename"]) == 0 and os.path.exists(os.path.join(self.output_dir, "embeddings.json")):
+            with open(os.path.join(self.output_dir, "embeddings.json"), "r") as f:
                 self.embedding_results = json.load(f)
+        else:
+            self.get_embedding()
 
         allPairs = []
 
@@ -64,7 +66,7 @@ class DuplicateFinder():
             "similarity_matrix": allPairs
         }
 
-        with open("pairwise_cosine.json", "w") as f:
+        with open(os.path.join(self.output_dir, "pairwise_cosine.json"), "w") as f:
             json.dump(result, f, indent=2)
 
     def cosine_similarity(self, embed1, embed2):
@@ -142,12 +144,13 @@ class DuplicateFinder():
         kept = []
         for i in range(len(cliques)):
             cur = list(cliques[i])
-            save = random.randint(0, len(cur)-1)
-            i = 0
-            while cur[save] in kept and i < 10:
+            if len(cur) > 0:
                 save = random.randint(0, len(cur)-1)
-                i += 1 
-            kept.append(cur[save])
+                i = 0
+                while cur[save] in kept and i < 10:
+                    save = random.randint(0, len(cur)-1)
+                    i += 1 
+                kept.append(cur[save])
 
             for i in range(len(cur)):
                 if i != save and cur[i] not in delete:

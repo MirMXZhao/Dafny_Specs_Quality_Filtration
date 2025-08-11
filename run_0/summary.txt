@@ -4,3 +4,65 @@
 Pipeline initialized!
 Run Number: 0
 
+===== Step: step_four: Removing duplicates  =====
+Kept total: 9
+Tossed total: 0
+Results saved to ./run_0/results/4_s4_duplicates.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
+===== Step: step_one: Filtering based on initial criteria  =====
+Kept total: 6
+Tossed total: 3
+Input file: 3_s3_count.xlsxResults saved to ./run_0/results/4_s1_filter.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 6
+Tossed total: 0
+Input file: 4_s1_filter.xlsxResults saved to ./run_0/results/5_s2_filter.xlsx
+
+===== Step: step_three: Sanity check for ensures and requires statements  =====
+Kept total: 6
+Tossed total: 0
+Input file: 5_s2_filter.xlsxResults saved to ./run_0/results/6_s3_count.xlsx
+
+===== Step: step_four: Removing duplicates  =====
+Kept total: 6
+Tossed total: 0
+Input file: 7_s4_duplicates.xlsxResults saved to ./run_0/results/7_s4_duplicates.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_one_repeat: Repeated filtering based on initial criteria  =====
+Kept total: 6
+Tossed total: 14
+Input file: 0_initial_spreadsheet_s0.xlsxResults saved to ./run_0/results/1r3_s1_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_one_repeat: Repeated filtering based on initial criteria  =====
+Kept total: 5
+Tossed total: 15
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_0/results/1r3_s1_filter.xlsx
+

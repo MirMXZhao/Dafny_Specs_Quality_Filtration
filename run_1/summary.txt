@@ -1,0 +1,110 @@
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_one_repeat: Repeated filtering based on initial criteria  =====
+Kept total: 197
+Tossed total: 565
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_1/results/1r3_s1_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_three: Sanity check for ensures and requires statements  =====
+Kept total: 193
+Tossed total: 4
+Input file: 1r3_s1_filter.xlsx
+Results saved to ./run_1/results/2_s3_count.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_four: Removing duplicates  =====
+Kept total: 189
+Tossed total: 8
+Input file: 3_s4_duplicates.xlsx
+Results saved to ./run_1/results/3_s4_duplicates.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_five: Unifying format  =====
+Kept total: 189
+Tossed total: 0
+Input file: 3_s4_duplicates.xlsx
+Results saved to ./run_1/results/4_s5_unify.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_six: Creating tests  =====
+Kept total: 189
+Tossed total: 0
+Input file: 4_s5_unify.xlsx
+Results saved to ./run_1/results/5_s6_tests.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
