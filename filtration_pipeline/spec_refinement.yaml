@@ -1,0 +1,32 @@
+method_name_improvement:
+  task: | 
+    task: 
+    You will be given a file with Dafny code.
+    The task is to improve any undescriptive method names in the given file to be more descriptive of their functionality
+  output_request: | 
+    output request: 
+    Output the entirety of the original file, but with the method names improved whenever necessary. 
+    DO NOT include any preamble or postamble, only the modified file.
+  file: |
+    The file is as follows: 
+
+spec_refinement: 
+  task: | 
+    The task is to ensure that each method in the given file has a clear, precise, and complete specification.
+    If given 
+  output_request: |
+    Your output must be the entirety of the original file, but with the specifications improved whenever necessary. 
+    DO NOT include any preamble or postamble, only the modified file.
+
+  file: |
+    The file is as follows: 
+  feeback: | 
+    The feedback is as follows:
+
+spec_feedback:
+  task: | 
+    The task is to provide feedback on the following specification, to ensure that it is clear
+  output_request: | 
+    Your output must be in two lines
+    1. The first line must be one of "SPEC DOES NOT NEED TO BE IMPROVED" or "SPEC NEEDS IMPROVEMENT"
+    2. Your second line 

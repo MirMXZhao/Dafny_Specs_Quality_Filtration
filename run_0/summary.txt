@@ -78,3 +78,95 @@ Tossed total: 0
 Input file: 7_s4_duplicates.xlsx
 Results saved to ./run_0/results/8_s3_count.xlsx
 
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
+===== Step: step_zero =====
+Initial number of files to process: 784
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: 1_easyness_filter  =====
+Kept total: 9
+Tossed total: 1
+Input file: initial_spreadsheet.xlsx
+Results saved to ./run_0/results/1_easyness_filter.xlsx
+
+===== Step: 2_understandable_filter  =====
+Kept total: 8
+Tossed total: 1
+Input file: 1_easyness_filter.xlsx
+Results saved to ./run_0/results/2_understandable_filter.xlsx
+
+===== Step: 3_count  =====
+Kept total: 8
+Tossed total: 0
+Input file: 2_understandable_filter.xlsx
+Results saved to ./run_0/results/3_count.xlsx
+
+===== Step: 4_unify  =====
+Kept total: 8
+Tossed total: 0
+Input file: 3_count.xlsx
+Results saved to ./run_0/results/4_unify.xlsx
+
+===== Step: 5_duplicates  =====
+Kept total: 8
+Tossed total: 0
+Input file: 5_duplicates.xlsx
+Results saved to ./run_0/results/5_duplicates.xlsx
+
+===== Step: 6_tests  =====
+Kept total: 8
+Tossed total: 0
+Input file: 5_duplicates.xlsx
+Results saved to ./run_0/results/6_tests.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 0
+
+===== Step: step_zero =====
+Initial number of files to process: 784
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: 1_count  =====
+Kept total: 10
+Tossed total: 0
+Input file: initial_spreadsheet.xlsx
+Results saved to ./run_0/results/1_count.xlsx
+
+===== Step: 2_easyness_filter  =====
+Kept total: 9
+Tossed total: 1
+Input file: 1_count.xlsx
+Results saved to ./run_0/results/2_easyness_filter.xlsx
+
+===== Step: 3_understandable_filter  =====
+Kept total: 8
+Tossed total: 1
+Input file: 2_easyness_filter.xlsx
+Results saved to ./run_0/results/3_understandable_filter.xlsx
+
+===== Step: 4_unify  =====
+Kept total: 8
+Tossed total: 0
+Input file: 3_understandable_filter.xlsx
+Results saved to ./run_0/results/4_unify.xlsx
+
+===== Step: 5_duplicates  =====
+Kept total: 8
+Tossed total: 0
+Input file: 5_duplicates.xlsx
+Results saved to ./run_0/results/5_duplicates.xlsx
+
+===== Step: 6_tests  =====
+Kept total: 8
+Tossed total: 0
+Input file: 5_duplicates.xlsx
+Results saved to ./run_0/results/6_tests.xlsx
+

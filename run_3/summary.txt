@@ -1,0 +1,250 @@
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 17
+Tossed total: 33
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_3/results/1_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 19
+Tossed total: 31
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_3/results/1_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 16
+Tossed total: 34
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_3/results/1_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 0
+Tossed total: 0
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_3/results/1_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 44
+Tossed total: 6
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_3/results/1_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 40
+Tossed total: 10
+Input file: 0_initial_spreadsheet_s0.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 38
+Tossed total: 6
+Input file: 1_s2_filter.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Comparison Results =====
+Disagreements: 10
+Disagreement, Human Keep LLM Toss: 1
+Disagreement, Human Toss LLM Keep: 9
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 38
+Tossed total: 6
+Input file: 1_s2_filter.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 12
+Disagreement, Human Keep LLM Toss: 2
+Disagreement, Human Toss LLM Keep: 10
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 41
+Tossed total: 3
+Input file: 1_s2_filter.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 13
+Disagreement, Human Keep LLM Toss: 1
+Disagreement, Human Toss LLM Keep: 12
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 43
+Tossed total: 1
+Input file: 1_s2_filter.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 13
+Disagreement, Human Keep LLM Toss: 0
+Disagreement, Human Toss LLM Keep: 13
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 42
+Tossed total: 2
+Input file: 1_s2_filter.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 12
+Disagreement, Human Keep LLM Toss: 0
+Disagreement, Human Toss LLM Keep: 12
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 40
+Tossed total: 4
+Input file: 1_s2_filter.xlsx
+Results saved to ./run_3/results/2_understandable_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 10
+Disagreement, Human Keep LLM Toss: 0
+Disagreement, Human Toss LLM Keep: 10
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 18
+Tossed total: 22
+Input file: 2_understandable_filter_s2_filter.xlsx
+Results saved to ./run_3/results/3_fully_specified_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 10
+Disagreement, Human Keep LLM Toss: 0
+Disagreement, Human Toss LLM Keep: 10
+Results saved to ./run_3/results/compare_2_understandable_filter_s2_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 3
+
+===== Step: step_two: Second layer of filtering  =====
+Kept total: 19
+Tossed total: 21
+Input file: 2_understandable_filter_s2_filter.xlsx
+Results saved to ./run_3/results/3_fully_specified_filter_s2_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 21
+Disagreement, Human Keep LLM Toss: 16
+Disagreement, Human Toss LLM Keep: 5
+Results saved to ./run_3/results/compare_3_fully_specified_filter_s2_filter.xlsx
+

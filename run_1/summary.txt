@@ -66,36 +66,6 @@ Results saved to 0_s0_initial_spreadsheet.xlsx
 Pipeline initialized!
 Run Number: 1
 
- /\_/\
-( o.o )
- > ^ <
-Pipeline initialized!
-Run Number: 1
-
- /\_/\
-( o.o )
- > ^ <
-Pipeline initialized!
-Run Number: 1
-
- /\_/\
-( o.o )
- > ^ <
-Pipeline initialized!
-Run Number: 1
-
- /\_/\
-( o.o )
- > ^ <
-Pipeline initialized!
-Run Number: 1
-
- /\_/\
-( o.o )
- > ^ <
-Pipeline initialized!
-Run Number: 1
-
 ===== Step: step_six: Creating tests  =====
 Kept total: 189
 Tossed total: 0
@@ -107,4 +77,102 @@ Results saved to ./run_1/results/5_s6_tests.xlsx
  > ^ <
 Pipeline initialized!
 Run Number: 1
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Comparison Results =====
+Disagreements: 18
+Results saved to ./run_1/results/compare_2_s3_count.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 762
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Comparison Results =====
+Disagreements: 19
+Results saved to ./run_1/results/compare_1r3_s1_filter.xlsx
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
 

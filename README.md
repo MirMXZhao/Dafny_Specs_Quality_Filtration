@@ -8,7 +8,7 @@ For the purposes of this project, we filter [DafnyBench](https://arxiv.org/abs/2
 The goal of the original DafnyBench was to test the ability of LLMs to auto-generate hints for the Dafny formal verification engine to successfully complete its verification. To extract the specifications for vericoding, we start by removing the bodies of the functions in DafnyBench. However, because the task of vericoding is different from DafnyBench's original purpose, not all of DafnyBench's specs are appropriate for the task of vericoding. 
 
 ## Methodology
-The pipeline is divided into 7 steps, each of which is labelled with s{step number}_{stepdescription}.py
+The pipeline is divided into 6 steps:
 
 0. Step 0: Creates a spreadsheet of all files in the repository 
 1. Step 1: General filter: filters for simplicity, complexity, and understandability
@@ -97,5 +97,7 @@ The code has several different outputs:
     - A file with a randomly drawn subset of 15 kept files and 15 tossed files under the manual_check folder. It also contains the explanation for why each file was kept/tossed. This is to allow the user to examine the output at each step of the pipeline and ensure that it is running correctly
     - Newly created files under new_filtered and new_tests for step 5 and 6 respectively, where step 5 deletes the Main function and unnecessary comments, and step 6 adds tests. 
     - A summary of the steps run, the inputs and outputs, and how many files were kept/tossed under summary.txt 
+
+*Naming Convention*: the results of a step are saved in {step_run_num}_s{step_num}_{step_name}.xlsx. step_run_num indicates that the input for this step was step_run_num-1. For example, running 4_s5_unify follows 3_s2_filter. step_num indicates which step was run (see methods)
 
 

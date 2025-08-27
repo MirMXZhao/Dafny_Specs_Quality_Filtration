@@ -59,6 +59,7 @@ filter_problems_2:
       - Generating a new map from an existing map by removing keys in a given set.
       - finding the second largest value of an array
       - outputing an array of all the odd numbers from an input array
+      - A program that returns True if an element is in an array
 
   output_request: |
     Respond in **EXACTLY** the following format, with no preamble or additional commentary. Output must be exactly two lines:
@@ -245,8 +246,6 @@ iterative_tests:
   file: | 
     The file is as follows: 
 
-
-
 write_implementation:
   overall_goal: |
     the goal is to implement the following specifications in Dafny
@@ -263,5 +262,150 @@ write_implementation:
     - be completely validated in dafny
 
     **DO NOT** edit the specifications or the tests, but you may add additional lemmas if needed. 
+  file: |
+    The file is as follows:
+
+filter_problems_test2:
+  overall_goal: |
+    The goal of this project is to curate a benchmark suite of Dafny **specifications only** (i.e., without implementations) that represent useful and non-trivial programming problems.
+  task: | 
+    Your task is to figure out 
+  examples: |
+    Examples:
+   
+  output_request: |
+    Respond in **EXACTLY** the following format, with no preamble or additional commentary. Output must be exactly two lines:
+      - First line: a single word, either KEEP or TOSS.  
+        - Output KEEP if the spec is suitable for the benchmark, or could be easily modified to be suitable.
+        - Output TOSS ONLY if the spec is a direct formula to its implementation.
+      - Second line: a brief justification explaining your decision.
+  file: |
+    The file is as follows: 
+
+easyness:
+  overall_goal: |
+    You are a software engineer's assistant. Your ONLY job is to filter out problems that are *literally just direct formulas written as code*.
+    - If the spec can be reduced to a single direct mathematical formula with no real programming logic, abstraction, or reasoning, output TOSS.  
+    - Otherwise, ALWAYS output KEEP.
+    - Ignore every other possible consideration (difficulty, completeness, correctness, triviality, etc.). 
+    - If you TOSS for ANY reason other than "direct formula," you have failed the task.
+  task: | 
+    Your task is to classify a specification as either KEEP or TOSS.  
+    - TOSS: only if the specification is just a direct formula.  
+    - KEEP: everything else. Be as generous as possible about KEEP.
+    - DO NOT judge based on difficulty, correctness, simplicity, length, triviality, style, or anything else. Those reasons are INVALID.  
+  examples: |
+    **TOSS**:  
+      method CountNonEmptySubstrings(s: string) returns (count: int)  
+      ensures count == (|s| * (|s| + 1)) / 2  
+      {}  
+      Reason: This is just one formula, no logic.  
+
+    **TOSS**:  
+      - A spec that just computes an integer square root.  
+      Reason: Direct formula only.  
+
+    **KEEP**:  
+      - A spec requiring parsing a string into tokens.  
+      Reason: Parsing is not a direct formula.  
+
+    **KEEP**:  
+      - A spec about validating a binary tree.  
+      Reason: Structural logic, not a direct formula.  
+
+    **KEEP**:  
+      - A spec with mistakes or incomplete parts.  
+      Reason: Not relevant — KEEP unless it is literally a direct formula.
+  output_request: |
+    Respond in EXACTLY the following format, with no preamble or extra commentary. Output must be exactly two lines:
+      - First line: KEEP or TOSS.  
+      - Second line: one-sentence justification.  
+        - If TOSS, the justification must explicitly mention "direct formula."  
+        - If KEEP, the justification must explicitly mention "not a direct formula."  
+  file: |
+    The file is as follows:
+
+
+understandable:
+  overall_goal: |
+    You are a software engineer's assistant. Your ONLY job is to filter out problems that are understandable
+    - Only TOSS if the purpose of a function/method/lemma etc. is not reasonably interpretable from either the name or the specification. 
+    - Otherwise, ALWAYS output KEEP.
+    - If you TOSS for ANY reason other than not interpretable, you have failed the task
+  task: | 
+    Your task is to classify a specification as either KEEP or TOSS.  
+    - TOSS: only if the specification is just a direct formula.  
+    - KEEP: everything else. Be as generous as possible about KEEP.
+    - DO NOT judge based on difficulty, correctness, simplicity, length, triviality, style, or anything else. Those reasons are INVALID.  
+  examples: |
+    **TOSS**:  
+      method BigFoot(step: nat) 
+      requires 0 < step <= 42;
+      {}
+      Reason: We cannot tell what this method is supposed to do 
+
+    **TOSS**:  
+      - A spec that is entirely in Spanish 
+      Reason: English only 
+    
+    **TOSS**:  
+    lemma L1(x: int)
+      ensures x * x >= 0
+    Reason: The name "L1" gives no clue, and the spec is just a direct math fact with no context.
+
+    **KEEP**:
+      - function length<T>(l: List<T>): nat
+        {}
+      Reason: Even though this is under specified, it is obvious based on the name that it is supposed to return the length of a list.
+
+    **KEEP**:
+      - method isBigger(x:int, y:int) returns (b:bool)
+        ensures b == (y > x)
+        {}
+      Reason: Even though the ensures statement contradicts the name of the method, the purpose is still interpretable.
+
+  output_request: |
+    Respond in EXACTLY the following format, with no preamble or extra commentary. Output must be exactly two lines:
+      - First line: KEEP or TOSS.  
+      - Second line: one-sentence justification.  
+  file: |
+    The file is as follows:
+
+fully_specified: 
+  overall_goal: |
+    You are a software engineer's assistant. Your ONLY job is to filter out problems that are not fully specified.
+    - Only TOSS if the specification is very underspecified, meaning that the ensures statements do not come close to determining the output of the function. 
+    - This does not apply to methods and lemmas like "test" or "main" that do not have requires and ensures statements.
+    - Otherwise, ALWAYS output KEEP.
+    - If you TOSS for ANY reason other than not fully specified, you have failed the task.
+  task: | 
+    Your task is to classify a specification as either KEEP or TOSS.  
+    - TOSS: only if the specification is  fully specified and is not a main or test method. 
+    - KEEP: everything else. Be as generous as possible about KEEP.
+  examples: |
+    **TOSS**:  
+      function fib(n: nat): nat
+      {}
+
+      method ComputeFib(n: nat) returns (f: nat)
+        ensures f == fib(n);
+      {}
+      Reason: The function fib is not defined, so this cannot be verified by Dafny.
+
+    **TOSS**:  
+      method mroot2(n:int) returns (r:int) //Cost O(n)
+        requires n>=0
+        ensures r>=0 && r*r <= n <(r+1)*(r+1)
+      {}
+      Reason: The time complexity is not verifiable by Dafny.
+
+    **KEEP**:
+      - A spec that has all methods and functions with requires and ensures statements, even if they are under-specified.
+      Reason: It can still be verified by Dafny.
+
+  output_request: |
+    Respond in EXACTLY the following format, with no preamble or extra commentary. Output must be exactly two lines:
+      - First line: KEEP or TOSS.  
+      - Second line: one-sentence justification.  
   file: |
     The file is as follows:

@@ -1,0 +1,8 @@
+method longest_increasing_subsequence(nums: array<int>) returns (max: int)
+    requires 1 <= nums.Length <= 2500
+    requires forall i :: 0 <= i < nums.Length ==> -10000 <= nums[i] <= 10000
+    ensures max >= 1
+{}
+
+function find_max(x: int, y: int): int
+{}
