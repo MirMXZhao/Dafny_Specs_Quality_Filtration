@@ -1,0 +1,2 @@
+SPEC NEEDS IMPROVEMENT
+The postcondition "r>=0 && r*r <= n <(r+1)*(r+1)" uses chained comparison which may not be properly parsed in Dafny - should be written as "r>=0 && r*r <= n && n < (r+1)*(r+1)" for clarity and proper verification.

@@ -1,0 +1,1 @@
+The specification lacks a method-level comment explaining the purpose, and the ensures clauses could be more concise by directly stating that each element becomes its absolute value rather than using conditional logic.

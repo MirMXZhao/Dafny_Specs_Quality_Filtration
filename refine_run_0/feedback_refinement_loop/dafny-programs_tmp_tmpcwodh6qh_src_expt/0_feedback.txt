@@ -1,0 +1,1 @@
+The specification lacks preconditions, postconditions, and parameter descriptions. Add requires clauses for parameter constraints, ensures clauses for expected behavior, and brief comments describing the purpose of each method and lemma.

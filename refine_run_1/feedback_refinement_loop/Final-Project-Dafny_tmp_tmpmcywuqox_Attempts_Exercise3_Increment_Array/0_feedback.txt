@@ -1,0 +1,1 @@
+The postcondition should use `old(a)[i]` instead of `old(a[i])` since the array reference itself doesn't change, only its contents.

@@ -1,0 +1,1 @@
+The mergeSort specification is incomplete - it should ensure that the sorted array is a permutation of the original array (multiset(a[..]) == old(multiset(a[..]))) to guarantee that elements are preserved, not just that the result is sorted.

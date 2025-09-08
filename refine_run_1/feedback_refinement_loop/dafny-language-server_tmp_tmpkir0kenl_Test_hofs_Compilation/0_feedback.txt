@@ -1,0 +1,1 @@
+The CreateRefWithValue constructor specification is incomplete - it needs a requires clause or should specify preconditions for the parameter 'a', and the ensures clause should be more explicit about the post-state of the object being fully initialized with the given value.

@@ -1,0 +1,1 @@
+The expectEquals, expectTrue, and expectFalse methods have postconditions (ensures) but lack preconditions (requires) to guarantee the postconditions can be satisfied, making them unverifiable in Dafny.

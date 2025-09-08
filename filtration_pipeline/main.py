@@ -8,36 +8,9 @@ from Concurrency import Concurrency
 from LLM_provider import AnthropicProvider, OpenAIProvider
 from refinement_pipeline import RefinementPipeline
 
-def test():
+def testDafnyBench():
     pipeline = FiltrationPipeline(run_num=5, root_dir = "./DafnyBench/DafnyBench/dataset/new_body_removed", max_workers = 10)
     pipeline.run_full_pipeline()
-
-def mirandaTest():
-    pipeline = FiltrationPipeline(run_num=5, max_workers = 10, mode = "evaluate_pipeline")
-    # pipeline.step_one_filter(FilterType.one)
-    # pipeline.step_one_filter(FilterType.two)
-    # # pipeline.step_one_run_full()
-    # pipeline.step_two_sanity_check()
-    # pipeline.step_three_unify_format()
-    # pipeline.delete_duplicates()
-    # pipeline.create_tests()
-    pipeline.summarize_filtration()
-    # pipeline.step_two_filter_layer_2_pt2()
-    # pipeline.compare_results(input_file = "2_understandable_filter_s2_filter.xlsx")
-    # pipeline.compare_results(input_file = "3_fully_specified_filter_s2_filter.xlsx")
-
-    # pipeline.run_subset([3])
-    # pipeline.step_one_filter_layer_1(debug=True)
-    # pipeline.step_two_filter_layer_2()
-    # pipeline.step_three_sanity_check(debug=True)
-    # pipeline.step_four_delete_duplicates()
-    # pipeline.step_five_unify_format()
-    # pipeline.step_six_create_tests(debug=True)
-
-def refinementTest():
-    pipeline = RefinementPipeline(0, debug = True)
-    pipeline.method_name_improvement()
-
 
 def user_usage(): 
     pipeline = FiltrationPipeline(run_num = 3
@@ -45,8 +18,21 @@ def user_usage():
                         ,root_dir = "** YOUR DIRECTORY HERE **")
     pipeline.run_subset([1, 2, 3, 4, 5, 6], debug=True)
 
+def filtrationTest():
+    pipeline = FiltrationPipeline(run_num=7, root_dir = "/Users/cinnabon/Documents/MIT/UROP_2025/refine_run_0/method_name_improved", max_workers = 10, mode = "evaluate_pipeline")
+    pipeline.filter(FilterType.one, debug = True)
+    pipeline.filter(FilterType.two)
+    pipeline.sanity_check()
+    # pipeline.unify_format()
+    # pipeline.delete_duplicates()
+    # pipeline.create_tests()
+
+def refinementTest():
+    pipeline = RefinementPipeline(2, debug = True, dir = "/Users/cinnabon/Documents/MIT/UROP_2025/refine_run_0/method_name_improved")
+    pipeline.feedback_improvement_loop(iterations = 2)
+
 if __name__ == "__main__":
     # refinementTest()
-    mirandaTest()
+    filtrationTest()
     # test()
     # user_usage()

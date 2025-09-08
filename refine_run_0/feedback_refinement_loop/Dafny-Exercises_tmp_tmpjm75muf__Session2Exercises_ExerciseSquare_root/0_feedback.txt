@@ -1,0 +1,1 @@
+The comment "Cost O(root n)" for integerSquareRootLinear is incorrect - it should be "Cost O(sqrt(n))" or "Cost O(n^0.5)" for mathematical accuracy and clarity.

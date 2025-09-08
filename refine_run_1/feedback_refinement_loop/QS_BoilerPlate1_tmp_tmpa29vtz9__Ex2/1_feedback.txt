@@ -1,0 +1,1 @@
+The `mergeSortHelper` method specification is missing a postcondition to ensure that elements outside the range [l,r) are preserved (multiset equality), which is necessary for correctness but not fully captured by the current slice equality postconditions.

@@ -1,0 +1,1 @@
+The specification should clarify behavior for integer overflow when negating the minimum integer value, and the method name suggests converting to absolute values but the ensures clause uses conditional logic instead of explicitly stating s[i] == |old(s[i])| or equivalent absolute value semantics.

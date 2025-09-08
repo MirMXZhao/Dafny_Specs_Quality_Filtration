@@ -1,0 +1,46 @@
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 7
+
+===== Step: step_zero =====
+Initial number of files to process: 50
+Results saved to 0_s0_initial_spreadsheet.xlsx
+
+===== Step: 1_easyness_filter  =====
+Kept total: 43
+Tossed total: 7
+Input file: 0_initial_spreadsheet.xlsx
+Results saved to ./run_7/results/1_easyness_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 15
+Disagreement, Human Keep LLM Toss: 1
+Disagreement, Human Toss LLM Keep: 14
+Results saved to ./run_7/results/compare_1_easyness_filter.xlsx
+
+===== Step: 2_understandable_filter  =====
+Kept total: 41
+Tossed total: 2
+Input file: 1_easyness_filter.xlsx
+Results saved to ./run_7/results/2_understandable_filter.xlsx
+
+===== Comparison Results =====
+Disagreements: 13
+Disagreement, Human Keep LLM Toss: 1
+Disagreement, Human Toss LLM Keep: 12
+Results saved to ./run_7/results/compare_2_understandable_filter.xlsx
+
+===== Step: 3_count  =====
+Kept total: 40
+Tossed total: 1
+Input file: 2_understandable_filter.xlsx
+Results saved to ./run_7/results/3_count.xlsx
+
+===== Comparison Results =====
+Disagreements: 12
+Disagreement, Human Keep LLM Toss: 1
+Disagreement, Human Toss LLM Keep: 11
+Results saved to ./run_7/results/compare_3_count.xlsx
+

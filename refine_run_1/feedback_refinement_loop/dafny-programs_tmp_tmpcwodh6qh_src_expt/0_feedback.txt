@@ -1,0 +1,1 @@
+The specification lacks documentation comments explaining the purpose and behavior of each function/method, the exponentDistributiveLaw lemma is missing its body/proof, and the computeExponent method should include a precondition stating "requires n >= 0" for consistency with the Expt function's domain.

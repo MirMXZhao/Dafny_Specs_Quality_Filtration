@@ -1,0 +1,1 @@
+The specification lacks documentation explaining the distinction between "assert" methods (which have preconditions) and "expect" methods (which have postconditions), and should clarify that these are external testing utilities with different failure behaviors.

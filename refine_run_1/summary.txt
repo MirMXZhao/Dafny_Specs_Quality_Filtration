@@ -1,0 +1,54 @@
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+====== spec_feedback completed ======
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+====== spec_feedback completed ======
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+====== spec_feedback completed ======
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+====== spec_feedback completed ======
+files completed 10
+
+====== spec_refinement completed ======
+files completed 5
+
+====== spec_feedback completed ======
+files completed 5
+
+ /\_/\
+( o.o )
+ > ^ <
+Pipeline initialized!
+Run Number: 1
+
+====== spec_feedback completed ======
+files completed 10
+
+====== spec_refinement completed ======
+files completed 7
+
+====== spec_feedback completed ======
+files completed 7
+

@@ -1,0 +1,2 @@
+SPEC NEEDS IMPROVEMENT
+The `ConvertUpperToLowerChar` function specification is incomplete - it lacks ensures clauses to guarantee it correctly converts uppercase to lowercase characters and that the result satisfies `IsUpperLowerPair(c, result)` when `IsUpperCase(c)` is true.

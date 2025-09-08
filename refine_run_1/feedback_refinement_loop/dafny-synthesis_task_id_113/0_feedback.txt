@@ -1,0 +1,1 @@
+The specification lacks a requires clause to handle null/undefined strings, and the postcondition should explicitly state what happens when the string is empty (returns false) versus non-empty (returns true iff all characters are digits).

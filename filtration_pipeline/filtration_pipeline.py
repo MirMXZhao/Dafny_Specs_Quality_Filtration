@@ -68,7 +68,9 @@ class FiltrationPipeline:
         self.summary_text = "./run_" + str(self.run_num) + "/summary.txt"
         with open(self.summary_text, "a") as f:
             f.write(" /\\_/\\\n( o.o )\n > ^ <\n" + "Pipeline initialized!\nRun Number: " + str(self.run_num) + "\n\n")
-         
+        self.summary_results = "./run_" + str(self.run_num) + "/results_summary.xlsx"
+        # creation of the spreadsheet is under step_zero_make_first_spreadsheet
+
         # New files storage
         self.root_dir = root_dir
         self.filtered_dir = "./run_"  + str(self.run_num) + "/new_filtered"
@@ -92,7 +94,33 @@ class FiltrationPipeline:
                 self.step_zero_make_first_spreadsheet(mode = mode)
         else:
             self.step_zero_make_first_spreadsheet(mode = mode)
+    
+    def update_summary(self, data, step_name) -> None:
+        summary_data = pd.read_excel(self.summary_results)
+        for i in range(len(data["filepath"])):
+            if data["keepToss"][i] == "TOSS":
+                filename = os.path.basename(data["filepath"][i])
+                all_filenames = summary_data["filename"].tolist()
+                try:
+                    idx1 = all_filenames.index(filename)
+                except ValueError:
+                    idx1 = -1
+                try:
+                    idx2 = all_filenames.index(filename.split("_", 1)[1])
+                except ValueError:
+                    idx2 = -1
 
+                index = max(idx1, idx2)
+                if index > -1: 
+                    summary_data["keepToss"][index] = "TOSS"
+                    summary_data["tossedAt"][index] = step_name
+                    if "reasoning" in data.keys():
+                        summary_data["reasoning"][index] = data["reasoning"][i]
+        
+        df_summary = pd.DataFrame(summary_data)
+        df_summary.to_excel(self.summary_results, sheet_name='Sheet1', index=False)
+        print(f"Summary results saved to {self.summary_results}")
+        
     def manual_check(self, output_file: str,  kept: int = 15, tossed: int = 15) -> None:
         """
         Outputs kept Kept files and toss Tossed files for manual checking into a file for ease of access. 
@@ -167,7 +195,6 @@ class FiltrationPipeline:
         with open(filepath, 'w') as f:
             f.write(manual_check_output)
         
-
     def save_data(self, data: Dict[str, Any], output_file: str, debug: bool = False) -> None:
         """
         Save data to an Excel file
@@ -176,6 +203,8 @@ class FiltrationPipeline:
             data: Dictionary containing data to save
             output_file: Output file path
         """
+        self.update_summary(data, output_file)
+
         df_result = pd.DataFrame(data)
         output_file_path = os.path.join(self.results_dir, output_file + ".xlsx")
         df_result.to_excel(output_file_path, sheet_name='Sheet1', index=False)
@@ -204,7 +233,7 @@ class FiltrationPipeline:
                     i += 1
         
         return file_paths 
-    
+
     def compare_results(self,
                         input_file: str = None):
         human_verified = "./filtration_pipeline/human_verified_sample.xlsx"
@@ -279,20 +308,39 @@ class FiltrationPipeline:
             "filepath": [],
             "keepToss": []
         }
+
+        summary_data = {
+            "filepath": [],
+            "filename": [],
+            "keepToss": [],
+            "tossedAt": [],
+            "reasoning": [],
+        }
+
         if mode is None:
             for root, dirs, files in os.walk(self.root_dir):
                 for file in files:
                     if file.endswith('.dfy'):
                         output["filepath"].append(os.path.join(root, file))
                         output["keepToss"].append("KEEP")
+                        summary_data["filename"].append(file)
+                        summary_data["filepath"].append(os.path.join(root, file))
+                        summary_data["keepToss"].append("KEEP")
+                    
         elif mode == "evaluate_pipeline":
             human_verified = "./filtration_pipeline/human_verified_sample.xlsx"
             human = pd.read_excel(human_verified)
             for filepath in human["filepath"]:
                 output["filepath"].append(filepath)
                 output["keepToss"].append("KEEP")
+                summary_data["filename"].append(os.path.basename(filepath))
+                summary_data["filepath"].append(filepath)
+                summary_data["keepToss"].append("KEEP")
         else:
             raise ValueError("mode must be None or 'evaluate_pipeline'")
+
+        summary_data["tossedAt"] = ["NA" for i in range(len(summary_data["filepath"]))]
+        summary_data["reasoning"] = ["NA" for i in range(len(summary_data["filepath"]))]
 
         df_result = pd.DataFrame(output)
         output_filepath = os.path.join(self.results_dir, "0_"+ output_file + ".xlsx")
@@ -302,8 +350,13 @@ class FiltrationPipeline:
         print(text_output)
         with open(self.summary_text, "a") as f:
             f.write(text_output)
-        self.files.append(output_file + ".xlsx")
+        self.files.append("0_" + output_file + ".xlsx")
         self.steps_run += 1
+
+        if not os.path.exists(self.summary_results):
+            df_summary = pd.DataFrame(summary_data)
+            df_summary.to_excel(self.summary_results, sheet_name='Sheet1', index=False)
+            print(f"Summary results saved to {self.summary_results}")
     
     def filter(self, 
                         test: FilterType,
@@ -567,35 +620,36 @@ class FiltrationPipeline:
         
         self.save_data(results, output_file, debug=debug)
 
-    def summarize_filtration(self):
-        data = {
-            "filepath": [],
-            "keepToss": [],
-            "tossedAt": [],
-        }
+    # def summarize_filtration(self):
 
-        initial_filepath = os.path.join(self.results_dir, "0_initial_spreadsheet.xlsx")
-        initial_data = pd.read_excel(initial_filepath)
+    #     data = {
+    #         "filepath": [],
+    #         "keepToss": [],
+    #         "tossedAt": [],
+    #     }
 
-        for file in initial_data["filepath"]:
-            data["filepath"].append(file)
-            data["keepToss"].append("KEEP") 
-            data["tossedAt"].append("NA")
+    #     initial_filepath = os.path.join(self.results_dir, "0_initial_spreadsheet.xlsx")
+    #     initial_data = pd.read_excel(initial_filepath)
+
+    #     for file in initial_data["filepath"]:
+    #         data["filepath"].append(file)
+    #         data["keepToss"].append("KEEP") 
+    #         data["tossedAt"].append("NA")
         
-        for entry in os.listdir(self.results_dir): 
-            filepath = os.path.join(self.results_dir, entry)
-            if os.path.isfile(filepath) and entry.endswith(".xlsx"):
-                step_data = pd.read_excel(filepath)
-                for i in range(len(step_data["keepToss"])):
-                    filepath = step_data["filepath"][i]
-                    if step_data["keepToss"][i] == "TOSS":
-                        index = data["filepath"].index(filepath)
-                        data["keepToss"][index] = "TOSS"
-                        data["tossedAt"][index] = entry
+    #     for entry in os.listdir(self.results_dir): 
+    #         filepath = os.path.join(self.results_dir, entry)
+    #         if os.path.isfile(filepath) and entry.endswith(".xlsx"):
+    #             step_data = pd.read_excel(filepath)
+    #             for i in range(len(step_data["keepToss"])):
+    #                 filepath = step_data["filepath"][i]
+    #                 if step_data["keepToss"][i] == "TOSS":
+    #                     index = data["filepath"].index(filepath)
+    #                     data["keepToss"][index] = "TOSS"
+    #                     data["tossedAt"][index] = entry
         
-        output_filepath = os.path.join(self.results_dir, "summary_filtration.xlsx")
-        df_result = pd.DataFrame(data)
-        df_result.to_excel(output_filepath, sheet_name='Sheet1', index=False)
+    #     output_filepath = os.path.join(self.results_dir, "summary_filtration.xlsx")
+    #     df_result = pd.DataFrame(data)
+    #     df_result.to_excel(output_filepath, sheet_name='Sheet1', index=False)
 
 
     def repeated_step_run(self, step: int, num_runs: int, num_majority: int, debug: bool = False) -> None:

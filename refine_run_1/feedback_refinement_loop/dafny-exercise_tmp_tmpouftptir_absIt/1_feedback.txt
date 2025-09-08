@@ -1,0 +1,1 @@
+The specification should include a precondition to handle integer overflow when converting the minimum integer value, as -(-2147483648) would overflow in most integer representations.

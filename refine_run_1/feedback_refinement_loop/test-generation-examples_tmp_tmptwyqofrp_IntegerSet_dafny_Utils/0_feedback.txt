@@ -1,0 +1,1 @@
+The specification lacks docstrings/comments explaining the difference between "assert" and "expect" methods, and the extern methods need clearer behavioral contracts - specifically whether they terminate execution on failure or continue with side effects.

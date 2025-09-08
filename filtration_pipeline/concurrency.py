@@ -163,6 +163,65 @@ class Concurrency:
         print(f"Completed: {completed}/{len(inputs)}, Errors: {errors}")
         return results
     
+    def send_messages_with_custom_prompts(self, 
+                                        system_prompt: str, 
+                                        message_prompts: List[str], 
+                                        filepaths: List[str], 
+                                        provider: str = "anthro", 
+                                        max_tokens: int = 2000, 
+                                        model: str = "",
+                                        collect_results: bool = True) -> Union[List[Any], List[str]]:
+        """
+        Send messages with custom prompts for each file using filepaths.
+
+        Args:
+            system_prompt: The system prompt to send
+            message_prompts: List of user message prompts (one for each file)
+            filepaths: List of file paths to read and send
+            provider: "anthro" or "open"
+            max_tokens: Maximum tokens for response
+            model: Model to use (uses default if empty)
+            collect_results: If True, returns list of responses; if False, returns futures
+
+        Returns:
+            List of responses or futures depending on collect_results
+        """
+        if len(message_prompts) != len(filepaths):
+            raise ValueError(f"Number of message prompts ({len(message_prompts)}) must match number of filepaths ({len(filepaths)})")
+        
+        if provider == "anthro":
+            handler = self.anthro_provider
+            if not model:
+                model = handler.get_default_model()
+        elif provider == "open":
+            handler = self.open_provider
+            if not model:
+                model = handler.get_default_model()
+        else:
+            raise ValueError(f"Invalid provider: {provider}. Use 'anthro' or 'open'")
+
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = []
+
+            for filepath, message_prompt in zip(filepaths, message_prompts):
+                text = read_file(filepath)
+                if provider == "anthro":
+                    future = executor.submit(
+                        handler.create_message_text, 
+                        system_prompt, message_prompt, text, max_tokens, model
+                    )
+                else:  # OpenAI
+                    future = executor.submit(
+                        handler.create_message, 
+                        system_prompt, message_prompt, text, max_tokens, model
+                    )
+                futures.append(future)
+
+            if collect_results:
+                return [future.result() for future in futures]
+            else:
+                return futures
+    
     def embed_files(self, 
                    filepaths: List[str], 
                    model: str = "text-embedding-3-small") -> List[Optional[List[float]]]:

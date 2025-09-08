@@ -1,0 +1,2 @@
+SPEC NEEDS IMPROVEMENT
+The function Expt has a redundant precondition "requires n >= 0" since n is already declared as nat, and the lemma exponentDistributiveLaw lacks a body/proof which may be needed for verification.

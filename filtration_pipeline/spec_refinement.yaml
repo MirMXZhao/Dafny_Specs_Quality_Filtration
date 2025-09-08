@@ -13,20 +13,26 @@ method_name_improvement:
 spec_refinement: 
   task: | 
     The task is to ensure that each method in the given file has a clear, precise, and complete specification.
-    If given 
+    You will be given the file and feedback on the specification. Use ONLY the feedback to improve the specification. 
+    Improve JUST the specification, DO NOT change the method implementation.
   output_request: |
-    Your output must be the entirety of the original file, but with the specifications improved whenever necessary. 
+    Your output must be the entirety of the original file, but with the specifications improved wherever necessary. 
     DO NOT include any preamble or postamble, only the modified file.
-
   file: |
     The file is as follows: 
-  feeback: | 
+  feedback: | 
     The feedback is as follows:
 
 spec_feedback:
   task: | 
-    The task is to provide feedback on the following specification, to ensure that it is clear
+    The task is to provide feedback on the following specification, to ensure that it is clear, concise, and fully captures the intended behavior of the method.
+    DO NOT make suggestions for improving the method implementation, ONLY the specification. Do not make suggestions for changing the specification that would 
+    cause the file to not be verifiable in dafny. 
   output_request: | 
     Your output must be in two lines
     1. The first line must be one of "SPEC DOES NOT NEED TO BE IMPROVED" or "SPEC NEEDS IMPROVEMENT"
-    2. Your second line 
+    2. Your second line must be your feedback on how to improve the specification, if any. This should be concise, and useful for an LLM
+       to improve the code. If the spec does not need to be improved, write "N/A" on the second line.
+  file: | 
+    The file is as follows:
+
