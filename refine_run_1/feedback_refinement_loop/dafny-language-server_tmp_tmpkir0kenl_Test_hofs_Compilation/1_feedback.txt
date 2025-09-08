@@ -1,1 +1,0 @@
-The constructor specification should include a `modifies this` clause to explicitly state that it modifies the object being constructed, which is required for Dafny verification of object initialization.

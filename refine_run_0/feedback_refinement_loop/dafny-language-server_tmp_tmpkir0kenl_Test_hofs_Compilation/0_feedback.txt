@@ -1,1 +1,0 @@
-The specification lacks method documentation, missing preconditions/postconditions for the Main method, and the constructor specification could be more explicit about the initialization behavior. Add proper method contracts and documentation comments to clarify the intended behavior and assumptions.

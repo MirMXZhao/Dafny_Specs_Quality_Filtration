@@ -1,1 +1,0 @@
-The specification lacks a precondition (requires clause) to ensure the string parameter is valid, and the postcondition should clarify that an empty string returns false while a non-empty string of all digits returns true.

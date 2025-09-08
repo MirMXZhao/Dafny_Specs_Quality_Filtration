@@ -1,1 +1,0 @@
-The postcondition should verify that ConvertUpperToLowerChar actually produces the correct lowercase character by ensuring IsUpperLowerPair(s[i], ConvertUpperToLowerChar(s[i])) when IsUpperCase(s[i]) is true, rather than just referencing v[i] which may not be properly linked to the conversion function.

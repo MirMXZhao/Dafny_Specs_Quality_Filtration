@@ -7,13 +7,14 @@ For the purposes of this project, we filter [DafnyBench](https://arxiv.org/abs/2
 
 The goal of the original DafnyBench was to test the ability of LLMs to auto-generate hints for the Dafny formal verification engine to successfully complete its verification. To extract the specifications for vericoding, we start by removing the bodies of the functions in DafnyBench. However, because the task of vericoding is different from DafnyBench's original purpose, not all of DafnyBench's specs are appropriate for the task of vericoding. 
 
+# Filtration Pipeline
 ## Methodology
 The pipeline is divided into 5 sections:
 
 1. Filters  
-    a. easyness filters (filters out files of easier problems, where easy is defined as problems where the specs are direct formulas for the implementations)
-    b. understandability filter (filters out problems that aren't understandable, where understandable is defined as problems that are reasonably interpretable from their name or specification)
-    c. fully specified filter (optional, filters out problems that aren't fully specified)
+    - easyness filters (filters out files of easier problems, where easy is defined as problems where the specs are direct formulas for the implementations)
+    - understandability filter (filters out problems that aren't understandable, where understandable is defined as problems that are reasonably interpretable from their name or specification)
+    - fully specified filter (optional, filters out problems that aren't fully specified)
 2. Method + ensures/requires statement count check (filters out files where many functions are missing ensures/require statements)
 3. Format Unification (deletes unnecessary comments from files)
 4. Duplicate Deletion (see paper for more info)
@@ -62,7 +63,7 @@ The evaluate_pipeline mode runs the pipeline on a subset of 50 files that have b
 │   ├── results_summary.xlsx                        # Summarizes where each file was discarded and the reasoning
 └── ...
 ```
-## Filtration Pipeline
+
 ## Usage
 A pipeline is provided for easy, robust use on any folder of Dafny specifications. 
 All code for the pipeline can be found in the filtration_pipeline folder
@@ -108,10 +109,14 @@ The code has several different outputs:
 
 *Naming Convention*: the results of a step are saved in {step_run_num}_{step_name}.xlsx. step_run_num indicates that the input for this step was step_run_num-1. For example, running 4_unify follows 3_easyness_filter.
 
-## Refinement Pipeline
-This is currently under development. 
-Some of the features currently planned/in place include: 
-1. Method name refinement (having the LLM rename only the methods based on context clues to be more descriptive)
-2. 
+# Refinement Pipeline
+This is currently under development, and may or may not be completed. 
+The features currently planned/in place include: 
+1. Method name refinement (having the LLM rename only the methods based on context clues to be more descriptive) > mostly implemented
+2. Iterative spec refinement (the LLM provides feedback and also creates the refinement)
+
+The refinement pipeline is currently being tested and implemented, results can be found under refine_run_{run_num}. 
+The main code is in refinement_pipeline.py
+
 
 

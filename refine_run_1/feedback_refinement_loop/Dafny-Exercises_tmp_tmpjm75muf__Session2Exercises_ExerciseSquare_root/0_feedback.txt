@@ -1,1 +1,0 @@
-The postcondition "r*r <= n <(r+1)*(r+1)" uses unclear operator precedence - should be written as "r*r <= n < (r+1)*(r+1)" with explicit parentheses, and the binary search method should specify that variables y and h are local variables in the method signature or clarify their scope.

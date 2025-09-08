@@ -1,1 +1,0 @@
-The mergeSortHelper method requires l < r but the base case checks l >= (r - 1), creating inconsistency. Change the requirement to 0 <= l <= r <= a.Length and add ensures clause for when l == r that a[l..r] remains unchanged.

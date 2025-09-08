@@ -1,1 +1,0 @@
-The specification lacks documentation explaining the method's purpose and behavior. Add a comment describing that ToLowercase converts uppercase ASCII letters to lowercase while preserving other characters, and clarify that IsUpperCase checks for ASCII uppercase letters (A-Z) and IsUpperLowerPair verifies correct case conversion.
